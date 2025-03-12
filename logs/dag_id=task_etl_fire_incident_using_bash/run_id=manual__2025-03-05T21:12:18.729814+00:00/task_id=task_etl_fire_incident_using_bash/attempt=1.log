@@ -1,0 +1,124 @@
+[2025-03-05T21:12:22.904+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-05T21:12:22.915+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: task_etl_fire_incident_using_bash.task_etl_fire_incident_using_bash manual__2025-03-05T21:12:18.729814+00:00 [queued]>
+[2025-03-05T21:12:22.921+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: task_etl_fire_incident_using_bash.task_etl_fire_incident_using_bash manual__2025-03-05T21:12:18.729814+00:00 [queued]>
+[2025-03-05T21:12:22.921+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-03-05T21:12:22.933+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): task_etl_fire_incident_using_bash> on 2025-03-05 21:12:18.729814+00:00
+[2025-03-05T21:12:22.940+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=116) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-05T21:12:22.941+0000] {standard_task_runner.py:72} INFO - Started process 118 to run task
+[2025-03-05T21:12:22.941+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'task_etl_fire_incident_using_bash', 'task_etl_fire_incident_using_bash', 'manual__2025-03-05T21:12:18.729814+00:00', '--job-id', '256', '--raw', '--subdir', 'DAGS_FOLDER/fire_incidents_dag.py', '--cfg-path', '/tmp/tmpowafcsvc']
+[2025-03-05T21:12:22.942+0000] {standard_task_runner.py:105} INFO - Job 256: Subtask task_etl_fire_incident_using_bash
+[2025-03-05T21:12:22.978+0000] {task_command.py:467} INFO - Running <TaskInstance: task_etl_fire_incident_using_bash.task_etl_fire_incident_using_bash manual__2025-03-05T21:12:18.729814+00:00 [running]> on host b526f8dc6bc6
+[2025-03-05T21:12:23.054+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='***@***.com' AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='task_etl_fire_incident_using_bash' AIRFLOW_CTX_TASK_ID='task_etl_fire_incident_using_bash' AIRFLOW_CTX_EXECUTION_DATE='2025-03-05T21:12:18.729814+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-05T21:12:18.729814+00:00'
+[2025-03-05T21:12:23.056+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-03-05T21:12:23.056+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-03-05T21:12:23.057+0000] {logging_mixin.py:190} INFO - Current task name:task_etl_fire_incident_using_bash state:running start_date:2025-03-05 21:12:22.916072+00:00
+[2025-03-05T21:12:23.057+0000] {logging_mixin.py:190} INFO - Dag name:task_etl_fire_incident_using_bash and current dag run status:running
+[2025-03-05T21:12:23.057+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-03-05T21:12:23.058+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-03-05T21:12:23.059+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'docker']
+[2025-03-05T21:12:23.072+0000] {subprocess.py:99} INFO - Output:
+[2025-03-05T21:12:23.176+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.176+0000] {subprocess.py:106} INFO - Usage:  docker [OPTIONS] COMMAND
+[2025-03-05T21:12:23.177+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.177+0000] {subprocess.py:106} INFO - A self-sufficient runtime for containers
+[2025-03-05T21:12:23.177+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.178+0000] {subprocess.py:106} INFO - Common Commands:
+[2025-03-05T21:12:23.178+0000] {subprocess.py:106} INFO -   run         Create and run a new container from an image
+[2025-03-05T21:12:23.178+0000] {subprocess.py:106} INFO -   exec        Execute a command in a running container
+[2025-03-05T21:12:23.179+0000] {subprocess.py:106} INFO -   ps          List containers
+[2025-03-05T21:12:23.179+0000] {subprocess.py:106} INFO -   build       Build an image from a Dockerfile
+[2025-03-05T21:12:23.179+0000] {subprocess.py:106} INFO -   pull        Download an image from a registry
+[2025-03-05T21:12:23.180+0000] {subprocess.py:106} INFO -   push        Upload an image to a registry
+[2025-03-05T21:12:23.180+0000] {subprocess.py:106} INFO -   images      List images
+[2025-03-05T21:12:23.180+0000] {subprocess.py:106} INFO -   login       Authenticate to a registry
+[2025-03-05T21:12:23.181+0000] {subprocess.py:106} INFO -   logout      Log out from a registry
+[2025-03-05T21:12:23.181+0000] {subprocess.py:106} INFO -   search      Search Docker Hub for images
+[2025-03-05T21:12:23.181+0000] {subprocess.py:106} INFO -   version     Show the Docker version information
+[2025-03-05T21:12:23.182+0000] {subprocess.py:106} INFO -   info        Display system-wide information
+[2025-03-05T21:12:23.182+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.182+0000] {subprocess.py:106} INFO - Management Commands:
+[2025-03-05T21:12:23.183+0000] {subprocess.py:106} INFO -   builder     Manage builds
+[2025-03-05T21:12:23.183+0000] {subprocess.py:106} INFO -   checkpoint  Manage checkpoints
+[2025-03-05T21:12:23.183+0000] {subprocess.py:106} INFO -   container   Manage containers
+[2025-03-05T21:12:23.184+0000] {subprocess.py:106} INFO -   context     Manage contexts
+[2025-03-05T21:12:23.184+0000] {subprocess.py:106} INFO -   image       Manage images
+[2025-03-05T21:12:23.184+0000] {subprocess.py:106} INFO -   manifest    Manage Docker image manifests and manifest lists
+[2025-03-05T21:12:23.184+0000] {subprocess.py:106} INFO -   network     Manage networks
+[2025-03-05T21:12:23.185+0000] {subprocess.py:106} INFO -   plugin      Manage plugins
+[2025-03-05T21:12:23.185+0000] {subprocess.py:106} INFO -   system      Manage Docker
+[2025-03-05T21:12:23.185+0000] {subprocess.py:106} INFO -   trust       Manage trust on Docker images
+[2025-03-05T21:12:23.185+0000] {subprocess.py:106} INFO -   volume      Manage volumes
+[2025-03-05T21:12:23.186+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.186+0000] {subprocess.py:106} INFO - Swarm Commands:
+[2025-03-05T21:12:23.186+0000] {subprocess.py:106} INFO -   config      Manage Swarm configs
+[2025-03-05T21:12:23.186+0000] {subprocess.py:106} INFO -   node        Manage Swarm nodes
+[2025-03-05T21:12:23.187+0000] {subprocess.py:106} INFO -   secret      Manage Swarm secrets
+[2025-03-05T21:12:23.187+0000] {subprocess.py:106} INFO -   service     Manage Swarm services
+[2025-03-05T21:12:23.187+0000] {subprocess.py:106} INFO -   stack       Manage Swarm stacks
+[2025-03-05T21:12:23.187+0000] {subprocess.py:106} INFO -   swarm       Manage Swarm
+[2025-03-05T21:12:23.188+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.188+0000] {subprocess.py:106} INFO - Commands:
+[2025-03-05T21:12:23.188+0000] {subprocess.py:106} INFO -   attach      Attach local standard input, output, and error streams to a running container
+[2025-03-05T21:12:23.188+0000] {subprocess.py:106} INFO -   commit      Create a new image from a container's changes
+[2025-03-05T21:12:23.189+0000] {subprocess.py:106} INFO -   cp          Copy files/folders between a container and the local filesystem
+[2025-03-05T21:12:23.189+0000] {subprocess.py:106} INFO -   create      Create a new container
+[2025-03-05T21:12:23.189+0000] {subprocess.py:106} INFO -   diff        Inspect changes to files or directories on a container's filesystem
+[2025-03-05T21:12:23.189+0000] {subprocess.py:106} INFO -   events      Get real time events from the server
+[2025-03-05T21:12:23.190+0000] {subprocess.py:106} INFO -   export      Export a container's filesystem as a tar archive
+[2025-03-05T21:12:23.190+0000] {subprocess.py:106} INFO -   history     Show the history of an image
+[2025-03-05T21:12:23.190+0000] {subprocess.py:106} INFO -   import      Import the contents from a tarball to create a filesystem image
+[2025-03-05T21:12:23.190+0000] {subprocess.py:106} INFO -   inspect     Return low-level information on Docker objects
+[2025-03-05T21:12:23.190+0000] {subprocess.py:106} INFO -   kill        Kill one or more running containers
+[2025-03-05T21:12:23.191+0000] {subprocess.py:106} INFO -   load        Load an image from a tar archive or STDIN
+[2025-03-05T21:12:23.191+0000] {subprocess.py:106} INFO -   logs        Fetch the logs of a container
+[2025-03-05T21:12:23.191+0000] {subprocess.py:106} INFO -   pause       Pause all processes within one or more containers
+[2025-03-05T21:12:23.191+0000] {subprocess.py:106} INFO -   port        List port mappings or a specific mapping for the container
+[2025-03-05T21:12:23.192+0000] {subprocess.py:106} INFO -   rename      Rename a container
+[2025-03-05T21:12:23.192+0000] {subprocess.py:106} INFO -   restart     Restart one or more containers
+[2025-03-05T21:12:23.192+0000] {subprocess.py:106} INFO -   rm          Remove one or more containers
+[2025-03-05T21:12:23.192+0000] {subprocess.py:106} INFO -   rmi         Remove one or more images
+[2025-03-05T21:12:23.193+0000] {subprocess.py:106} INFO -   save        Save one or more images to a tar archive (streamed to STDOUT by default)
+[2025-03-05T21:12:23.193+0000] {subprocess.py:106} INFO -   start       Start one or more stopped containers
+[2025-03-05T21:12:23.193+0000] {subprocess.py:106} INFO -   stats       Display a live stream of container(s) resource usage statistics
+[2025-03-05T21:12:23.193+0000] {subprocess.py:106} INFO -   stop        Stop one or more running containers
+[2025-03-05T21:12:23.194+0000] {subprocess.py:106} INFO -   tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+[2025-03-05T21:12:23.194+0000] {subprocess.py:106} INFO -   top         Display the running processes of a container
+[2025-03-05T21:12:23.194+0000] {subprocess.py:106} INFO -   unpause     Unpause all processes within one or more containers
+[2025-03-05T21:12:23.194+0000] {subprocess.py:106} INFO -   update      Update configuration of one or more containers
+[2025-03-05T21:12:23.194+0000] {subprocess.py:106} INFO -   wait        Block until one or more containers stop, then print their exit codes
+[2025-03-05T21:12:23.195+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.195+0000] {subprocess.py:106} INFO - Global Options:
+[2025-03-05T21:12:23.195+0000] {subprocess.py:106} INFO -       --config string      Location of client config files (default
+[2025-03-05T21:12:23.195+0000] {subprocess.py:106} INFO -                            "/home/***/.docker")
+[2025-03-05T21:12:23.195+0000] {subprocess.py:106} INFO -   -c, --context string     Name of the context to use to connect to the
+[2025-03-05T21:12:23.196+0000] {subprocess.py:106} INFO -                            daemon (overrides DOCKER_HOST env var and
+[2025-03-05T21:12:23.196+0000] {subprocess.py:106} INFO -                            default context set with "docker context use")
+[2025-03-05T21:12:23.196+0000] {subprocess.py:106} INFO -   -D, --debug              Enable debug mode
+[2025-03-05T21:12:23.196+0000] {subprocess.py:106} INFO -   -H, --host list          Daemon socket to connect to
+[2025-03-05T21:12:23.197+0000] {subprocess.py:106} INFO -   -l, --log-level string   Set the logging level ("debug", "info",
+[2025-03-05T21:12:23.197+0000] {subprocess.py:106} INFO -                            "warn", "error", "fatal") (default "info")
+[2025-03-05T21:12:23.197+0000] {subprocess.py:106} INFO -       --tls                Use TLS; implied by --tlsverify
+[2025-03-05T21:12:23.197+0000] {subprocess.py:106} INFO -       --tlscacert string   Trust certs signed only by this CA (default
+[2025-03-05T21:12:23.197+0000] {subprocess.py:106} INFO -                            "/home/***/.docker/ca.pem")
+[2025-03-05T21:12:23.198+0000] {subprocess.py:106} INFO -       --tlscert string     Path to TLS certificate file (default
+[2025-03-05T21:12:23.198+0000] {subprocess.py:106} INFO -                            "/home/***/.docker/cert.pem")
+[2025-03-05T21:12:23.198+0000] {subprocess.py:106} INFO -       --tlskey string      Path to TLS key file (default
+[2025-03-05T21:12:23.198+0000] {subprocess.py:106} INFO -                            "/home/***/.docker/key.pem")
+[2025-03-05T21:12:23.199+0000] {subprocess.py:106} INFO -       --tlsverify          Use TLS and verify the remote
+[2025-03-05T21:12:23.199+0000] {subprocess.py:106} INFO -   -v, --version            Print version information and quit
+[2025-03-05T21:12:23.199+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.199+0000] {subprocess.py:106} INFO - Run 'docker COMMAND --help' for more information on a command.
+[2025-03-05T21:12:23.199+0000] {subprocess.py:106} INFO - 
+[2025-03-05T21:12:23.200+0000] {subprocess.py:106} INFO - For more help on how to use Docker, head to https://docs.docker.com/go/guides/
+[2025-03-05T21:12:23.200+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2025-03-05T21:12:23.221+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-03-05T21:12:23.221+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=task_etl_fire_incident_using_bash, task_id=task_etl_fire_incident_using_bash, run_id=manual__2025-03-05T21:12:18.729814+00:00, execution_date=20250305T211218, start_date=20250305T211222, end_date=20250305T211223
+[2025-03-05T21:12:23.239+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-03-05T21:12:23.240+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-03-05T21:12:23.240+0000] {logging_mixin.py:190} INFO - Dag name:task_etl_fire_incident_using_bash queued_at:2025-03-05 21:12:18.742831+00:00
+[2025-03-05T21:12:23.240+0000] {logging_mixin.py:190} INFO - Task hostname:b526f8dc6bc6 operator:BashOperator
+[2025-03-05T21:12:23.275+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-03-05T21:12:23.287+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-03-05T21:12:23.289+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

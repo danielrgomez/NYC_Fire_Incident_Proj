@@ -1,0 +1,306 @@
+[2025-03-09T16:56:22.304+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-09T16:56:22.321+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_fire_incidents_dag.load_data manual__2025-03-09T16:56:11.207615+00:00 [queued]>
+[2025-03-09T16:56:22.328+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_fire_incidents_dag.load_data manual__2025-03-09T16:56:11.207615+00:00 [queued]>
+[2025-03-09T16:56:22.328+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-03-09T16:56:22.339+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): load_data> on 2025-03-09 16:56:11.207615+00:00
+[2025-03-09T16:56:22.349+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=18763) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-09T16:56:22.351+0000] {standard_task_runner.py:72} INFO - Started process 18765 to run task
+[2025-03-09T16:56:22.352+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_fire_incidents_dag', 'load_data', 'manual__2025-03-09T16:56:11.207615+00:00', '--job-id', '540', '--raw', '--subdir', 'DAGS_FOLDER/fire_incidents_dag.py', '--cfg-path', '/tmp/tmpszu6k05z']
+[2025-03-09T16:56:22.352+0000] {standard_task_runner.py:105} INFO - Job 540: Subtask load_data
+[2025-03-09T16:56:22.388+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_fire_incidents_dag.load_data manual__2025-03-09T16:56:11.207615+00:00 [running]> on host fad361e322ea
+[2025-03-09T16:56:22.458+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='***@***.com' AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_fire_incidents_dag' AIRFLOW_CTX_TASK_ID='load_data' AIRFLOW_CTX_EXECUTION_DATE='2025-03-09T16:56:11.207615+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-09T16:56:11.207615+00:00'
+[2025-03-09T16:56:22.459+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-03-09T16:56:22.459+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-03-09T16:56:22.459+0000] {logging_mixin.py:190} INFO - Current task name:load_data state:running start_date:2025-03-09 16:56:22.321362+00:00
+[2025-03-09T16:56:22.459+0000] {logging_mixin.py:190} INFO - Dag name:etl_fire_incidents_dag and current dag run status:running
+[2025-03-09T16:56:22.459+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-03-09T16:56:22.467+0000] {logging_mixin.py:190} INFO - Loading NYC Fire Incidents Data to Postgres DB....
+[2025-03-09T16:56:22.468+0000] {warnings.py:112} WARNING - /opt/***/dags/pull_fire_incidents.py:190: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+  df = pd.read_json(load_data)
+
+[2025-03-09T16:56:22.494+0000] {logging_mixin.py:190} INFO - Let us see the dates!!!
+[2025-03-09T16:56:22.495+0000] {logging_mixin.py:190} INFO - 0    1609718460000
+1    1609718460000
+2    1609718460000
+Name: incident_datetime, dtype: int64
+[2025-03-09T16:56:22.520+0000] {logging_mixin.py:190} INFO - 
+CREATE TABLE fire_incidents_schema (
+	starfire_incident_id BIGINT, 
+	incident_datetime BIGINT, 
+	alarm_box_borough TEXT, 
+	alarm_box_number BIGINT, 
+	alarm_box_location TEXT, 
+	incident_borough TEXT, 
+	zipcode BIGINT, 
+	policeprecinct BIGINT, 
+	citycouncildistrict BIGINT, 
+	communitydistrict BIGINT, 
+	communityschooldistrict BIGINT, 
+	congressionaldistrict BIGINT, 
+	alarm_source_description_tx TEXT, 
+	alarm_level_index_description TEXT, 
+	highest_alarm_level TEXT, 
+	incident_classification TEXT, 
+	incident_classification_group TEXT, 
+	dispatch_response_seconds_qy BIGINT, 
+	first_assignment_datetime BIGINT, 
+	first_activation_datetime BIGINT, 
+	incident_close_datetime BIGINT, 
+	valid_dispatch_rspns_time_indc TEXT, 
+	valid_incident_rspns_time_indc TEXT, 
+	incident_response_seconds_qy BIGINT, 
+	incident_travel_tm_seconds_qy BIGINT, 
+	engines_assigned_quantity BIGINT, 
+	ladders_assigned_quantity BIGINT, 
+	other_units_assigned_quantity BIGINT, 
+	first_on_scene_datetime TEXT
+)
+[2025-03-09T16:56:22.696+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+psycopg2.errors.DatatypeMismatch: column "incident_datetime" is of type timestamp without time zone but expression is of type bigint
+LINE 1: ...t_on_scene_datetime) VALUES (0, 2100404460110002, 1609718460...
+                                                             ^
+HINT:  You will need to rewrite or cast the expression.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/fire_incidents_dag.py", line 117, in load_data
+    load_fire_incidents_data(load_data,username,password,host_name,port,database,tbl_name)
+  File "/opt/airflow/dags/pull_fire_incidents.py", line 221, in load_fire_incidents_data
+    batch.to_sql(name='fire_incidents_tbl', con=engine, if_exists='append')
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/util/_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/generic.py", line 3008, in to_sql
+    return sql.to_sql(
+           ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 788, in to_sql
+    return pandas_sql.to_sql(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1958, in to_sql
+    total_inserted = sql_engine.insert_records(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1507, in insert_records
+    raise err
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1498, in insert_records
+    return table.insert(chunksize=chunksize, method=method)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1059, in insert
+    num_inserted = exec_insert(conn, keys, chunk_iter)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 951, in _execute_insert
+    result = conn.execute(self.table.insert(), data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.DatatypeMismatch) column "incident_datetime" is of type timestamp without time zone but expression is of type bigint
+LINE 1: ...t_on_scene_datetime) VALUES (0, 2100404460110002, 1609718460...
+                                                             ^
+HINT:  You will need to rewrite or cast the expression.
+
+[SQL: INSERT INTO fire_incidents_tbl (index, starfire_incident_id, incident_datetime, alarm_box_borough, alarm_box_number, alarm_box_location, incident_borough, zipcode, policeprecinct, citycouncildistrict, communitydistrict, communityschooldistrict, congressionaldistrict, alarm_source_description_tx, alarm_level_index_description, highest_alarm_level, incident_classification, incident_classification_group, dispatch_response_seconds_qy, first_assignment_datetime, first_activation_datetime, incident_close_datetime, valid_dispatch_rspns_time_indc, valid_incident_rspns_time_indc, incident_response_seconds_qy, incident_travel_tm_seconds_qy, engines_assigned_quantity, ladders_assigned_quantity, other_units_assigned_quantity, first_on_scene_datetime) VALUES (%(index)s, %(starfire_incident_id)s, %(incident_datetime)s, %(alarm_box_borough)s, %(alarm_box_number)s, %(alarm_box_location)s, %(incident_borough)s, %(zipcode)s, %(policeprecinct)s, %(citycouncildistrict)s, %(communitydistrict)s, %(communityschooldistrict)s, %(congressionaldistrict)s, %(alarm_source_description_tx)s, %(alarm_level_index_description)s, %(highest_alarm_level)s, %(incident_classification)s, %(incident_classification_group)s, %(dispatch_response_seconds_qy)s, %(first_assignment_datetime)s, %(first_activation_datetime)s, %(incident_close_datetime)s, %(valid_dispatch_rspns_time_indc)s, %(valid_incident_rspns_time_indc)s, %(incident_response_seconds_qy)s, %(incident_travel_tm_seconds_qy)s, %(engines_assigned_quantity)s, %(ladders_assigned_quantity)s, %(other_units_assigned_quantity)s, %(first_on_scene_datetime)s)]
+[parameters: ({'index': 0, 'starfire_incident_id': 2100404460110002, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'MANHATTAN', 'alarm_box_number': 446, 'alarm_box_location': '3 AVE & ST. MARKS PL', 'incident_borough': 'MANHATTAN', 'zipcode': 10003, 'policeprecinct': 9, 'citycouncildistrict': 2, 'communitydistrict': 103, 'communityschooldistrict': 1, 'congressionaldistrict': 12, 'alarm_source_description_tx': 'PD Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - PD Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 13, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718820000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None}, {'index': 1, 'starfire_incident_id': 2100433250140001, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'BROOKLYN', 'alarm_box_number': 3325, 'alarm_box_location': 'AVENUE O & E 13 ST', 'incident_borough': 'BROOKLYN', 'zipcode': 11230, 'policeprecinct': 70, 'citycouncildistrict': 48, 'communitydistrict': 314, 'communityschooldistrict': 21, 'congressionaldistrict': 9, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - Breathing / Ill or Sick', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 5, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609720320000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'Y', 'incident_response_seconds_qy': 170, 'incident_travel_tm_seconds_qy': 165, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': '2021-01-04T00:04:00.000'}, {'index': 2, 'starfire_incident_id': 2100411280150003, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'QUEENS', 'alarm_box_number': 1128, 'alarm_box_location': 'MOTT AVE & DICKENS ST', 'incident_borough': 'QUEENS', 'zipcode': 11691, 'policeprecinct': 101, 'citycouncildistrict': 31, 'communitydistrict': 414, 'communityschooldistrict': 27, 'congressionaldistrict': 5, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - EMS Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 4, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718700000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2025-03-09T16:56:22.725+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-03-09T16:56:22.725+0000] {logging_mixin.py:190} INFO - Task start:2025-03-09 16:56:22.321362+00:00 end:2025-03-09 16:56:22.724555+00:00 duration:0.403193
+[2025-03-09T16:56:22.725+0000] {logging_mixin.py:190} INFO - Task:<Task(PythonOperator): load_data> dag:<DAG: etl_fire_incidents_dag> dagrun:<DagRun etl_fire_incidents_dag @ 2025-03-09 16:56:11.207615+00:00: manual__2025-03-09T16:56:11.207615+00:00, state:running, queued_at: 2025-03-09 16:56:11.217120+00:00. externally triggered: True>
+[2025-03-09T16:56:22.726+0000] {logging_mixin.py:190} INFO - Failure caused by (psycopg2.errors.DatatypeMismatch) column "incident_datetime" is of type timestamp without time zone but expression is of type bigint
+LINE 1: ...t_on_scene_datetime) VALUES (0, 2100404460110002, 1609718460...
+                                                             ^
+HINT:  You will need to rewrite or cast the expression.
+
+[SQL: INSERT INTO fire_incidents_tbl (index, starfire_incident_id, incident_datetime, alarm_box_borough, alarm_box_number, alarm_box_location, incident_borough, zipcode, policeprecinct, citycouncildistrict, communitydistrict, communityschooldistrict, congressionaldistrict, alarm_source_description_tx, alarm_level_index_description, highest_alarm_level, incident_classification, incident_classification_group, dispatch_response_seconds_qy, first_assignment_datetime, first_activation_datetime, incident_close_datetime, valid_dispatch_rspns_time_indc, valid_incident_rspns_time_indc, incident_response_seconds_qy, incident_travel_tm_seconds_qy, engines_assigned_quantity, ladders_assigned_quantity, other_units_assigned_quantity, first_on_scene_datetime) VALUES (%(index)s, %(starfire_incident_id)s, %(incident_datetime)s, %(alarm_box_borough)s, %(alarm_box_number)s, %(alarm_box_location)s, %(incident_borough)s, %(zipcode)s, %(policeprecinct)s, %(citycouncildistrict)s, %(communitydistrict)s, %(communityschooldistrict)s, %(congressionaldistrict)s, %(alarm_source_description_tx)s, %(alarm_level_index_description)s, %(highest_alarm_level)s, %(incident_classification)s, %(incident_classification_group)s, %(dispatch_response_seconds_qy)s, %(first_assignment_datetime)s, %(first_activation_datetime)s, %(incident_close_datetime)s, %(valid_dispatch_rspns_time_indc)s, %(valid_incident_rspns_time_indc)s, %(incident_response_seconds_qy)s, %(incident_travel_tm_seconds_qy)s, %(engines_assigned_quantity)s, %(ladders_assigned_quantity)s, %(other_units_assigned_quantity)s, %(first_on_scene_datetime)s)]
+[parameters: ({'index': 0, 'starfire_incident_id': 2100404460110002, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'MANHATTAN', 'alarm_box_number': 446, 'alarm_box_location': '3 AVE & ST. MARKS PL', 'incident_borough': 'MANHATTAN', 'zipcode': 10003, 'policeprecinct': 9, 'citycouncildistrict': 2, 'communitydistrict': 103, 'communityschooldistrict': 1, 'congressionaldistrict': 12, 'alarm_source_description_tx': 'PD Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - PD Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 13, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718820000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None}, {'index': 1, 'starfire_incident_id': 2100433250140001, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'BROOKLYN', 'alarm_box_number': 3325, 'alarm_box_location': 'AVENUE O & E 13 ST', 'incident_borough': 'BROOKLYN', 'zipcode': 11230, 'policeprecinct': 70, 'citycouncildistrict': 48, 'communitydistrict': 314, 'communityschooldistrict': 21, 'congressionaldistrict': 9, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - Breathing / Ill or Sick', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 5, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609720320000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'Y', 'incident_response_seconds_qy': 170, 'incident_travel_tm_seconds_qy': 165, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': '2021-01-04T00:04:00.000'}, {'index': 2, 'starfire_incident_id': 2100411280150003, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'QUEENS', 'alarm_box_number': 1128, 'alarm_box_location': 'MOTT AVE & DICKENS ST', 'incident_borough': 'QUEENS', 'zipcode': 11691, 'policeprecinct': 101, 'citycouncildistrict': 31, 'communitydistrict': 414, 'communityschooldistrict': 27, 'congressionaldistrict': 5, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - EMS Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 4, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718700000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2025-03-09T16:56:22.726+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_fire_incidents_dag, task_id=load_data, run_id=manual__2025-03-09T16:56:11.207615+00:00, execution_date=20250309T165611, start_date=20250309T165622, end_date=20250309T165622
+[2025-03-09T16:56:22.753+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-03-09T16:56:22.753+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 540 for task load_data ((psycopg2.errors.DatatypeMismatch) column "incident_datetime" is of type timestamp without time zone but expression is of type bigint
+LINE 1: ...t_on_scene_datetime) VALUES (0, 2100404460110002, 1609718460...
+                                                             ^
+HINT:  You will need to rewrite or cast the expression.
+
+[SQL: INSERT INTO fire_incidents_tbl (index, starfire_incident_id, incident_datetime, alarm_box_borough, alarm_box_number, alarm_box_location, incident_borough, zipcode, policeprecinct, citycouncildistrict, communitydistrict, communityschooldistrict, congressionaldistrict, alarm_source_description_tx, alarm_level_index_description, highest_alarm_level, incident_classification, incident_classification_group, dispatch_response_seconds_qy, first_assignment_datetime, first_activation_datetime, incident_close_datetime, valid_dispatch_rspns_time_indc, valid_incident_rspns_time_indc, incident_response_seconds_qy, incident_travel_tm_seconds_qy, engines_assigned_quantity, ladders_assigned_quantity, other_units_assigned_quantity, first_on_scene_datetime) VALUES (%(index)s, %(starfire_incident_id)s, %(incident_datetime)s, %(alarm_box_borough)s, %(alarm_box_number)s, %(alarm_box_location)s, %(incident_borough)s, %(zipcode)s, %(policeprecinct)s, %(citycouncildistrict)s, %(communitydistrict)s, %(communityschooldistrict)s, %(congressionaldistrict)s, %(alarm_source_description_tx)s, %(alarm_level_index_description)s, %(highest_alarm_level)s, %(incident_classification)s, %(incident_classification_group)s, %(dispatch_response_seconds_qy)s, %(first_assignment_datetime)s, %(first_activation_datetime)s, %(incident_close_datetime)s, %(valid_dispatch_rspns_time_indc)s, %(valid_incident_rspns_time_indc)s, %(incident_response_seconds_qy)s, %(incident_travel_tm_seconds_qy)s, %(engines_assigned_quantity)s, %(ladders_assigned_quantity)s, %(other_units_assigned_quantity)s, %(first_on_scene_datetime)s)]
+[parameters: ({'index': 0, 'starfire_incident_id': 2100404460110002, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'MANHATTAN', 'alarm_box_number': 446, 'alarm_box_location': '3 AVE & ST. MARKS PL', 'incident_borough': 'MANHATTAN', 'zipcode': 10003, 'policeprecinct': 9, 'citycouncildistrict': 2, 'communitydistrict': 103, 'communityschooldistrict': 1, 'congressionaldistrict': 12, 'alarm_source_description_tx': 'PD Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - PD Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 13, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718820000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None}, {'index': 1, 'starfire_incident_id': 2100433250140001, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'BROOKLYN', 'alarm_box_number': 3325, 'alarm_box_location': 'AVENUE O & E 13 ST', 'incident_borough': 'BROOKLYN', 'zipcode': 11230, 'policeprecinct': 70, 'citycouncildistrict': 48, 'communitydistrict': 314, 'communityschooldistrict': 21, 'congressionaldistrict': 9, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - Breathing / Ill or Sick', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 5, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609720320000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'Y', 'incident_response_seconds_qy': 170, 'incident_travel_tm_seconds_qy': 165, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': '2021-01-04T00:04:00.000'}, {'index': 2, 'starfire_incident_id': 2100411280150003, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'QUEENS', 'alarm_box_number': 1128, 'alarm_box_location': 'MOTT AVE & DICKENS ST', 'incident_borough': 'QUEENS', 'zipcode': 11691, 'policeprecinct': 101, 'citycouncildistrict': 31, 'communitydistrict': 414, 'communityschooldistrict': 27, 'congressionaldistrict': 5, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - EMS Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 4, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718700000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None})]
+(Background on this error at: https://sqlalche.me/e/14/f405); 18765)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+psycopg2.errors.DatatypeMismatch: column "incident_datetime" is of type timestamp without time zone but expression is of type bigint
+LINE 1: ...t_on_scene_datetime) VALUES (0, 2100404460110002, 1609718460...
+                                                             ^
+HINT:  You will need to rewrite or cast the expression.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/fire_incidents_dag.py", line 117, in load_data
+    load_fire_incidents_data(load_data,username,password,host_name,port,database,tbl_name)
+  File "/opt/airflow/dags/pull_fire_incidents.py", line 221, in load_fire_incidents_data
+    batch.to_sql(name='fire_incidents_tbl', con=engine, if_exists='append')
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/util/_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/generic.py", line 3008, in to_sql
+    return sql.to_sql(
+           ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 788, in to_sql
+    return pandas_sql.to_sql(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1958, in to_sql
+    total_inserted = sql_engine.insert_records(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1507, in insert_records
+    raise err
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1498, in insert_records
+    return table.insert(chunksize=chunksize, method=method)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1059, in insert
+    num_inserted = exec_insert(conn, keys, chunk_iter)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 951, in _execute_insert
+    result = conn.execute(self.table.insert(), data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.DatatypeMismatch) column "incident_datetime" is of type timestamp without time zone but expression is of type bigint
+LINE 1: ...t_on_scene_datetime) VALUES (0, 2100404460110002, 1609718460...
+                                                             ^
+HINT:  You will need to rewrite or cast the expression.
+
+[SQL: INSERT INTO fire_incidents_tbl (index, starfire_incident_id, incident_datetime, alarm_box_borough, alarm_box_number, alarm_box_location, incident_borough, zipcode, policeprecinct, citycouncildistrict, communitydistrict, communityschooldistrict, congressionaldistrict, alarm_source_description_tx, alarm_level_index_description, highest_alarm_level, incident_classification, incident_classification_group, dispatch_response_seconds_qy, first_assignment_datetime, first_activation_datetime, incident_close_datetime, valid_dispatch_rspns_time_indc, valid_incident_rspns_time_indc, incident_response_seconds_qy, incident_travel_tm_seconds_qy, engines_assigned_quantity, ladders_assigned_quantity, other_units_assigned_quantity, first_on_scene_datetime) VALUES (%(index)s, %(starfire_incident_id)s, %(incident_datetime)s, %(alarm_box_borough)s, %(alarm_box_number)s, %(alarm_box_location)s, %(incident_borough)s, %(zipcode)s, %(policeprecinct)s, %(citycouncildistrict)s, %(communitydistrict)s, %(communityschooldistrict)s, %(congressionaldistrict)s, %(alarm_source_description_tx)s, %(alarm_level_index_description)s, %(highest_alarm_level)s, %(incident_classification)s, %(incident_classification_group)s, %(dispatch_response_seconds_qy)s, %(first_assignment_datetime)s, %(first_activation_datetime)s, %(incident_close_datetime)s, %(valid_dispatch_rspns_time_indc)s, %(valid_incident_rspns_time_indc)s, %(incident_response_seconds_qy)s, %(incident_travel_tm_seconds_qy)s, %(engines_assigned_quantity)s, %(ladders_assigned_quantity)s, %(other_units_assigned_quantity)s, %(first_on_scene_datetime)s)]
+[parameters: ({'index': 0, 'starfire_incident_id': 2100404460110002, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'MANHATTAN', 'alarm_box_number': 446, 'alarm_box_location': '3 AVE & ST. MARKS PL', 'incident_borough': 'MANHATTAN', 'zipcode': 10003, 'policeprecinct': 9, 'citycouncildistrict': 2, 'communitydistrict': 103, 'communityschooldistrict': 1, 'congressionaldistrict': 12, 'alarm_source_description_tx': 'PD Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - PD Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 13, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718820000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None}, {'index': 1, 'starfire_incident_id': 2100433250140001, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'BROOKLYN', 'alarm_box_number': 3325, 'alarm_box_location': 'AVENUE O & E 13 ST', 'incident_borough': 'BROOKLYN', 'zipcode': 11230, 'policeprecinct': 70, 'citycouncildistrict': 48, 'communitydistrict': 314, 'communityschooldistrict': 21, 'congressionaldistrict': 9, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - Breathing / Ill or Sick', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 5, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609720320000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'Y', 'incident_response_seconds_qy': 170, 'incident_travel_tm_seconds_qy': 165, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': '2021-01-04T00:04:00.000'}, {'index': 2, 'starfire_incident_id': 2100411280150003, 'incident_datetime': 1609718460000, 'alarm_box_borough': 'QUEENS', 'alarm_box_number': 1128, 'alarm_box_location': 'MOTT AVE & DICKENS ST', 'incident_borough': 'QUEENS', 'zipcode': 11691, 'policeprecinct': 101, 'citycouncildistrict': 31, 'communitydistrict': 414, 'communityschooldistrict': 27, 'congressionaldistrict': 5, 'alarm_source_description_tx': 'EMS Link/Medical', 'alarm_level_index_description': 'Initial Alarm', 'highest_alarm_level': 'First Alarm', 'incident_classification': 'Medical - EMS Link 10-91', 'incident_classification_group': 'Medical Emergencies', 'dispatch_response_seconds_qy': 4, 'first_assignment_datetime': 1609718460000, 'first_activation_datetime': 1609718520000, 'incident_close_datetime': 1609718700000, 'valid_dispatch_rspns_time_indc': 'N', 'valid_incident_rspns_time_indc': 'N', 'incident_response_seconds_qy': 0, 'incident_travel_tm_seconds_qy': 0, 'engines_assigned_quantity': 1, 'ladders_assigned_quantity': 0, 'other_units_assigned_quantity': 0, 'first_on_scene_datetime': None})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2025-03-09T16:56:22.806+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-03-09T16:56:22.833+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-03-09T16:56:22.836+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

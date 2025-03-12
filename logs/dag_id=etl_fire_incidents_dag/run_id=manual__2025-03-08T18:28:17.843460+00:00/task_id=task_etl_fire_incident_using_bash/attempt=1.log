@@ -1,0 +1,32 @@
+[2025-03-08T18:28:19.207+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-08T18:28:19.333+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_fire_incidents_dag.task_etl_fire_incident_using_bash manual__2025-03-08T18:28:17.843460+00:00 [queued]>
+[2025-03-08T18:28:19.339+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_fire_incidents_dag.task_etl_fire_incident_using_bash manual__2025-03-08T18:28:17.843460+00:00 [queued]>
+[2025-03-08T18:28:19.340+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-03-08T18:28:19.353+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): task_etl_fire_incident_using_bash> on 2025-03-08 18:28:17.843460+00:00
+[2025-03-08T18:28:19.360+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=472) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-08T18:28:19.361+0000] {standard_task_runner.py:72} INFO - Started process 474 to run task
+[2025-03-08T18:28:19.361+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_fire_incidents_dag', 'task_etl_fire_incident_using_bash', 'manual__2025-03-08T18:28:17.843460+00:00', '--job-id', '458', '--raw', '--subdir', 'DAGS_FOLDER/fire_incidents_dag.py', '--cfg-path', '/tmp/tmp3sexk7bg']
+[2025-03-08T18:28:19.362+0000] {standard_task_runner.py:105} INFO - Job 458: Subtask task_etl_fire_incident_using_bash
+[2025-03-08T18:28:19.397+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_fire_incidents_dag.task_etl_fire_incident_using_bash manual__2025-03-08T18:28:17.843460+00:00 [running]> on host fad361e322ea
+[2025-03-08T18:28:19.462+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='***@***.com' AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_fire_incidents_dag' AIRFLOW_CTX_TASK_ID='task_etl_fire_incident_using_bash' AIRFLOW_CTX_EXECUTION_DATE='2025-03-08T18:28:17.843460+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-08T18:28:17.843460+00:00'
+[2025-03-08T18:28:19.463+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-03-08T18:28:19.464+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-03-08T18:28:19.464+0000] {logging_mixin.py:190} INFO - Current task name:task_etl_fire_incident_using_bash state:running start_date:2025-03-08 18:28:19.334199+00:00
+[2025-03-08T18:28:19.464+0000] {logging_mixin.py:190} INFO - Dag name:etl_fire_incidents_dag and current dag run status:running
+[2025-03-08T18:28:19.465+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-03-08T18:28:19.465+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-03-08T18:28:19.466+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'docker run --rm \\--network=pg-network-fire-incidents \\nyc_fire_incidents:v001 \\--api_url=data.cityofnewyork.us \\--token=xoIfIdDlHq6gGzxqLqbUeMpsG \\--dataset_id=8m42-w767 \\--limit_rows=10000 \\--username=root \\--password=root \\--host_name=fire_incidents_db_container \\--port=5432 \\--database=fire_incidents_db \\--tbl_name=fire_incidents_tbl']
+[2025-03-08T18:28:19.478+0000] {subprocess.py:99} INFO - Output:
+[2025-03-08T18:28:20.819+0000] {subprocess.py:106} INFO - /app/pull_fire_incidents.py:23 DeprecationWarning: The `***.operators.python_operator.PythonOperator` class is deprecated. Please use `'***.operators.python.PythonOperator'`.
+[2025-03-08T18:28:21.717+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2025-03-08T18:28:21.749+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-03-08T18:28:21.749+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=etl_fire_incidents_dag, task_id=task_etl_fire_incident_using_bash, run_id=manual__2025-03-08T18:28:17.843460+00:00, execution_date=20250308T182817, start_date=20250308T182819, end_date=20250308T182821
+[2025-03-08T18:28:21.785+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-03-08T18:28:21.786+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-03-08T18:28:21.786+0000] {logging_mixin.py:190} INFO - Dag name:etl_fire_incidents_dag queued_at:2025-03-08 18:28:17.854374+00:00
+[2025-03-08T18:28:21.787+0000] {logging_mixin.py:190} INFO - Task hostname:fad361e322ea operator:BashOperator
+[2025-03-08T18:28:21.824+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-03-08T18:28:21.848+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-03-08T18:28:21.857+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

@@ -1,0 +1,112 @@
+[2025-03-01T14:56:56.233+0000] {processor.py:186} INFO - Started process (PID=55) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:56:56.234+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T14:56:56.347+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:56:56.340+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:56:56.396+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:56:56.391+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T14:56:56.396+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:56:56.483+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.289 seconds
+[2025-03-01T14:57:26.534+0000] {processor.py:186} INFO - Started process (PID=119) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:57:26.535+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T14:57:26.537+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:57:26.537+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:57:26.541+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:57:26.540+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T14:57:26.541+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:57:26.558+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.030 seconds
+[2025-03-01T14:58:26.775+0000] {processor.py:186} INFO - Started process (PID=164) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:58:26.776+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T14:58:26.778+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:58:26.778+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:58:26.781+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:58:26.780+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T14:58:26.781+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:58:26.838+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.077 seconds
+[2025-03-01T14:58:57.533+0000] {processor.py:186} INFO - Started process (PID=226) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:58:57.534+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T14:58:57.537+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:58:57.537+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:58:57.541+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:58:57.540+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T14:58:57.541+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:58:57.565+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.042 seconds
+[2025-03-01T14:59:27.760+0000] {processor.py:186} INFO - Started process (PID=290) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:59:27.762+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T14:59:27.765+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:59:27.765+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:59:27.769+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:59:27.768+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T14:59:27.770+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:59:27.791+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.037 seconds
+[2025-03-01T14:59:58.006+0000] {processor.py:186} INFO - Started process (PID=355) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:59:58.007+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T14:59:58.010+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:59:58.010+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:59:58.014+0000] {logging_mixin.py:190} INFO - [2025-03-01T14:59:58.013+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T14:59:58.014+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T14:59:58.042+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.042 seconds
+[2025-03-01T15:00:28.556+0000] {processor.py:186} INFO - Started process (PID=419) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T15:00:28.558+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T15:00:28.560+0000] {logging_mixin.py:190} INFO - [2025-03-01T15:00:28.560+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T15:00:28.563+0000] {logging_mixin.py:190} INFO - [2025-03-01T15:00:28.562+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T15:00:28.564+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T15:00:28.585+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.034 seconds
+[2025-03-01T15:00:58.675+0000] {processor.py:186} INFO - Started process (PID=483) to work on /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T15:00:58.676+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/__pycache__/fire_incidents_dag.py for tasks to queue
+[2025-03-01T15:00:58.679+0000] {logging_mixin.py:190} INFO - [2025-03-01T15:00:58.679+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T15:00:58.682+0000] {logging_mixin.py:190} INFO - [2025-03-01T15:00:58.681+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/__pycache__/fire_incidents_dag.py", line 4, in <module>
+    from pull_fire_incidents import pull_data_via_api
+ModuleNotFoundError: No module named 'pull_fire_incidents'
+[2025-03-01T15:00:58.683+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/__pycache__/fire_incidents_dag.py
+[2025-03-01T15:00:58.698+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/__pycache__/fire_incidents_dag.py took 0.029 seconds

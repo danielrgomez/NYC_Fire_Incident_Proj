@@ -1,0 +1,34 @@
+[2025-03-09T17:40:05.785+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-09T17:40:05.802+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_nyc_fire_incidents_dag.transform_data_task manual__2025-03-09T17:39:59.559464+00:00 [queued]>
+[2025-03-09T17:40:05.809+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_nyc_fire_incidents_dag.transform_data_task manual__2025-03-09T17:39:59.559464+00:00 [queued]>
+[2025-03-09T17:40:05.809+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-03-09T17:40:05.823+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): transform_data_task> on 2025-03-09 17:39:59.559464+00:00
+[2025-03-09T17:40:05.830+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=19458) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-09T17:40:05.831+0000] {standard_task_runner.py:72} INFO - Started process 19460 to run task
+[2025-03-09T17:40:05.832+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_nyc_fire_incidents_dag', 'transform_data_task', 'manual__2025-03-09T17:39:59.559464+00:00', '--job-id', '573', '--raw', '--subdir', 'DAGS_FOLDER/fire_incidents_dag.py', '--cfg-path', '/tmp/tmpkl2hiq1k']
+[2025-03-09T17:40:05.833+0000] {standard_task_runner.py:105} INFO - Job 573: Subtask transform_data_task
+[2025-03-09T17:40:05.869+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_nyc_fire_incidents_dag.transform_data_task manual__2025-03-09T17:39:59.559464+00:00 [running]> on host fad361e322ea
+[2025-03-09T17:40:05.943+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='***@***.com' AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_nyc_fire_incidents_dag' AIRFLOW_CTX_TASK_ID='transform_data_task' AIRFLOW_CTX_EXECUTION_DATE='2025-03-09T17:39:59.559464+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-09T17:39:59.559464+00:00'
+[2025-03-09T17:40:05.944+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-03-09T17:40:05.944+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-03-09T17:40:05.944+0000] {logging_mixin.py:190} INFO - Current task name:transform_data_task state:running start_date:2025-03-09 17:40:05.802760+00:00
+[2025-03-09T17:40:05.944+0000] {logging_mixin.py:190} INFO - Dag name:etl_nyc_fire_incidents_dag and current dag run status:running
+[2025-03-09T17:40:05.945+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-03-09T17:40:05.945+0000] {logging_mixin.py:190} INFO - Pulling xcom!!!!!
+[2025-03-09T17:40:06.034+0000] {warnings.py:112} WARNING - /opt/***/dags/pull_fire_incidents.py:48: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+  df = pd.read_json(transform_json_data)
+
+[2025-03-09T17:40:06.175+0000] {logging_mixin.py:190} INFO - Transforming NYC Fire Incidents Data....
+[2025-03-09T17:40:06.197+0000] {logging_mixin.py:190} INFO - Transformations are Complete
+[2025-03-09T17:40:06.499+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-03-09T17:40:06.507+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-03-09T17:40:06.507+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=etl_nyc_fire_incidents_dag, task_id=transform_data_task, run_id=manual__2025-03-09T17:39:59.559464+00:00, execution_date=20250309T173959, start_date=20250309T174005, end_date=20250309T174006
+[2025-03-09T17:40:06.531+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-03-09T17:40:06.531+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-03-09T17:40:06.531+0000] {logging_mixin.py:190} INFO - Dag name:etl_nyc_fire_incidents_dag queued_at:2025-03-09 17:39:59.587522+00:00
+[2025-03-09T17:40:06.532+0000] {logging_mixin.py:190} INFO - Task hostname:fad361e322ea operator:PythonOperator
+[2025-03-09T17:40:06.568+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-03-09T17:40:06.591+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-03-09T17:40:06.594+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

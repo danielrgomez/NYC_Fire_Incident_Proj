@@ -1,0 +1,31 @@
+[2025-03-10T21:09:08.233+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-10T21:09:08.368+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_nyc_fire_incidents_dag.extract_data_task scheduled__2025-03-10T21:00:00+00:00 [queued]>
+[2025-03-10T21:09:08.374+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_nyc_fire_incidents_dag.extract_data_task scheduled__2025-03-10T21:00:00+00:00 [queued]>
+[2025-03-10T21:09:08.374+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-03-10T21:09:08.385+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): extract_data_task> on 2025-03-10 21:00:00+00:00
+[2025-03-10T21:09:08.392+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=132) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-10T21:09:08.393+0000] {standard_task_runner.py:72} INFO - Started process 134 to run task
+[2025-03-10T21:09:08.393+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_nyc_fire_incidents_dag', 'extract_data_task', 'scheduled__2025-03-10T21:00:00+00:00', '--job-id', '617', '--raw', '--subdir', 'DAGS_FOLDER/fire_incidents_dag.py', '--cfg-path', '/tmp/tmp80e_fn4n']
+[2025-03-10T21:09:08.394+0000] {standard_task_runner.py:105} INFO - Job 617: Subtask extract_data_task
+[2025-03-10T21:09:08.430+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_nyc_fire_incidents_dag.extract_data_task scheduled__2025-03-10T21:00:00+00:00 [running]> on host 544a43034a42
+[2025-03-10T21:09:08.509+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='***@***.com' AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_nyc_fire_incidents_dag' AIRFLOW_CTX_TASK_ID='extract_data_task' AIRFLOW_CTX_EXECUTION_DATE='2025-03-10T21:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-03-10T21:00:00+00:00'
+[2025-03-10T21:09:08.510+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-03-10T21:09:08.510+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-03-10T21:09:08.510+0000] {logging_mixin.py:190} INFO - Current task name:extract_data_task state:running start_date:2025-03-10 21:09:08.368554+00:00
+[2025-03-10T21:09:08.510+0000] {logging_mixin.py:190} INFO - Dag name:etl_nyc_fire_incidents_dag and current dag run status:running
+[2025-03-10T21:09:08.510+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-03-10T21:09:08.511+0000] {logging_mixin.py:190} INFO - Extracting NYC Fire Incidents Data via API....
+[2025-03-10T21:09:12.621+0000] {logging_mixin.py:190} INFO - Connected to API...
+[2025-03-10T21:09:12.647+0000] {logging_mixin.py:190} INFO - Extracting is Complete
+[2025-03-10T21:09:12.947+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-03-10T21:09:12.954+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-03-10T21:09:12.955+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=etl_nyc_fire_incidents_dag, task_id=extract_data_task, run_id=scheduled__2025-03-10T21:00:00+00:00, execution_date=20250310T210000, start_date=20250310T210908, end_date=20250310T210912
+[2025-03-10T21:09:12.973+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-03-10T21:09:12.974+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-03-10T21:09:12.974+0000] {logging_mixin.py:190} INFO - Dag name:etl_nyc_fire_incidents_dag queued_at:2025-03-10 21:09:06.202897+00:00
+[2025-03-10T21:09:12.974+0000] {logging_mixin.py:190} INFO - Task hostname:544a43034a42 operator:PythonOperator
+[2025-03-10T21:09:12.982+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-03-10T21:09:13.006+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-03-10T21:09:13.010+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

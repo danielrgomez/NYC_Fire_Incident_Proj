@@ -1,0 +1,33 @@
+[2025-03-09T16:20:54.948+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-09T16:20:54.965+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_fire_incidents_dag.extract_data manual__2025-03-09T16:20:52.680187+00:00 [queued]>
+[2025-03-09T16:20:54.971+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_fire_incidents_dag.extract_data manual__2025-03-09T16:20:52.680187+00:00 [queued]>
+[2025-03-09T16:20:54.972+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-03-09T16:20:54.983+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): extract_data> on 2025-03-09 16:20:52.680187+00:00
+[2025-03-09T16:20:54.993+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=18198) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-09T16:20:54.995+0000] {standard_task_runner.py:72} INFO - Started process 18200 to run task
+[2025-03-09T16:20:54.995+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_fire_incidents_dag', 'extract_data', 'manual__2025-03-09T16:20:52.680187+00:00', '--job-id', '515', '--raw', '--subdir', 'DAGS_FOLDER/fire_incidents_dag.py', '--cfg-path', '/tmp/tmpkqorxn3m']
+[2025-03-09T16:20:54.996+0000] {standard_task_runner.py:105} INFO - Job 515: Subtask extract_data
+[2025-03-09T16:20:55.037+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_fire_incidents_dag.extract_data manual__2025-03-09T16:20:52.680187+00:00 [running]> on host fad361e322ea
+[2025-03-09T16:20:55.115+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='***@***.com' AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_fire_incidents_dag' AIRFLOW_CTX_TASK_ID='extract_data' AIRFLOW_CTX_EXECUTION_DATE='2025-03-09T16:20:52.680187+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-09T16:20:52.680187+00:00'
+[2025-03-09T16:20:55.116+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-03-09T16:20:55.116+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-03-09T16:20:55.116+0000] {logging_mixin.py:190} INFO - Current task name:extract_data state:running start_date:2025-03-09 16:20:54.965397+00:00
+[2025-03-09T16:20:55.117+0000] {logging_mixin.py:190} INFO - Dag name:etl_fire_incidents_dag and current dag run status:running
+[2025-03-09T16:20:55.117+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-03-09T16:20:55.117+0000] {logging_mixin.py:190} INFO - Extracting NYC Fire Incidents Data via API....
+[2025-03-09T16:20:57.720+0000] {logging_mixin.py:190} INFO - Connected to API...
+[2025-03-09T16:20:57.724+0000] {logging_mixin.py:190} INFO - Extracting is Complete
+[2025-03-09T16:20:57.726+0000] {logging_mixin.py:190} INFO - TESTING TESTING TESTING
+[2025-03-09T16:20:57.726+0000] {logging_mixin.py:190} INFO - {"starfire_incident_id":{"0":"2100404460110002","1":"2100433250140001","2":"2100411280150003"},"incident_datetime":{"0":"2021-01-04T00:01:00.000","1":"2021-01-04T00:01:00.000","2":"2021-01-04T00:01:00.000"},"alarm_box_borough":{"0":"MANHATTAN","1":"BROOKLYN","2":"QUEENS"},"alarm_box_number":{"0":"446","1":"3325","2":"1128"},"alarm_box_location":{"0":"3 AVE & ST. MARKS PL","1":"AVENUE O & E 13 ST","2":"MOTT AVE & DICKENS ST"},"incident_borough":{"0":"MANHATTAN","1":"BROOKLYN","2":"QUEENS"},"zipcode":{"0":"10003","1":"11230","2":"11691"},"policeprecinct":{"0":"9","1":"70","2":"101"},"citycouncildistrict":{"0":"2","1":"48","2":"31"},"communitydistrict":{"0":"103","1":"314","2":"414"},"communityschooldistrict":{"0":"1","1":"21","2":"27"},"congressionaldistrict":{"0":"12","1":"9","2":"5"},"alarm_source_description_tx":{"0":"PD Link\/Medical","1":"EMS Link\/Medical","2":"EMS Link\/Medical"},"alarm_level_index_description":{"0":"Initial Alarm","1":"Initial Alarm","2":"Initial Alarm"},"highest_alarm_level":{"0":"First Alarm","1":"First Alarm","2":"First Alarm"},"incident_classification":{"0":"Medical - PD Link 10-91","1":"Medical - Breathing \/ Ill or Sick","2":"Medical - EMS Link 10-91"},"incident_classification_group":{"0":"Medical Emergencies","1":"Medical Emergencies","2":"Medical Emergencies"},"dispatch_response_seconds_qy":{"0":"13","1":"5","2":"4"},"first_assignment_datetime":{"0":"2021-01-04T00:01:00.000","1":"2021-01-04T00:01:00.000","2":"2021-01-04T00:01:00.000"},"first_activation_datetime":{"0":"2021-01-04T00:02:00.000","1":"2021-01-04T00:02:00.000","2":"2021-01-04T00:02:00.000"},"incident_close_datetime":{"0":"2021-01-04T00:07:00.000","1":"2021-01-04T00:32:00.000","2":"2021-01-04T00:05:00.000"},"valid_dispatch_rspns_time_indc":{"0":"N","1":"N","2":"N"},"valid_incident_rspns_time_indc":{"0":"N","1":"Y","2":"N"},"incident_response_seconds_qy":{"0":"0","1":"170","2":"0"},"incident_travel_tm_seconds_qy":{"0":"0","1":"165","2":"0"},"engines_assigned_quantity":{"0":"1","1":"1","2":"1"},"ladders_assigned_quantity":{"0":"0","1":"0","2":"0"},"other_units_assigned_quantity":{"0":"0","1":"0","2":"0"},"first_on_scene_datetime":{"0":null,"1":"2021-01-04T00:04:00.000","2":null}}
+[2025-03-09T16:20:57.744+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-03-09T16:20:57.754+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-03-09T16:20:57.754+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=etl_fire_incidents_dag, task_id=extract_data, run_id=manual__2025-03-09T16:20:52.680187+00:00, execution_date=20250309T162052, start_date=20250309T162054, end_date=20250309T162057
+[2025-03-09T16:20:57.781+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-03-09T16:20:57.782+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-03-09T16:20:57.782+0000] {logging_mixin.py:190} INFO - Dag name:etl_fire_incidents_dag queued_at:2025-03-09 16:20:52.692271+00:00
+[2025-03-09T16:20:57.782+0000] {logging_mixin.py:190} INFO - Task hostname:fad361e322ea operator:PythonOperator
+[2025-03-09T16:20:57.815+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-03-09T16:20:57.847+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-03-09T16:20:57.849+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

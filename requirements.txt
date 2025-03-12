@@ -1,0 +1,8 @@
+pandas
+sodapy==2.2.0
+sqlalchemy 
+psycopg2-binary
+pyarrow
+retry
+tenacity
+argparse

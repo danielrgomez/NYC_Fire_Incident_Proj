@@ -1,0 +1,27 @@
+# Stage 2: Create Airflow image
+FROM apache/airflow:2.10.5
+
+#USER root
+#
+## Install any additional dependencies (non-Python)
+#RUN apt-get update && apt-get install -y \
+#    some-package \
+#    && rm -rf /var/lib/apt/lists/*
+
+
+USER airflow
+
+COPY requirements.txt .
+
+# Install any other dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install any additional dependencies (non-Python)
+#RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+#    some-package \
+#    && rm -rf /var/lib/apt/lists/*
+
+# Copy your DAGs and other necessary files
+#COPY dags/ /opt/airflow/dags/
+#COPY requirements.txt /opt/airflow/dags/requirements.txt
+

@@ -1,0 +1,113 @@
+
+#This was the docker compose file used when we wanted to include jupyter notebook in the same container as postgres and pgadmin
+#This was used for development/testing purposes
+#version: '3.8'
+#
+#networks:
+#  pg-network-fire-incidents:
+#    driver: bridge
+#
+#services:
+#  jupyter:
+#    build: .
+#    container_name: fire_incidents_jupyter
+#    ports:
+#      - "8888:8888"
+#    volumes:
+#      - /home/dgomezpe/My_Projects/DE_Zoomcamp/NYC_Fire_Incident:/home/jovyan/work
+#    networks:
+#      - pg-network-fire-incidents
+#
+#  postgres:
+#    image: postgres:13
+#    container_name: fire_incidents_db
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_DB: fire_incidents
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    networks:
+#      - pg-network-fire-incidents
+#
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: fire_incidents_pgadmin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#      PGADMIN_DEFAULT_PASSWORD: root
+#    ports:
+#      - "8080:80"
+#    depends_on:
+#      - postgres
+#    networks:
+#      - pg-network-fire-incidents
+#
+#volumes:
+##  postgres_data:
+#
+#
+#
+#
+#
+#
+###Other Compose File
+#version: '3.8'
+#
+#networks:
+#  pg-network-fire-incidents:
+#    driver: bridge
+#
+#services:
+#  postgres:
+#    image: postgres:13
+#    container_name: fire_incidents_db
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_DB: fire_incidents
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - ./fire_incidents_postgres:/var/lib/postgresql/data:rw
+#    networks:
+#      - pg-network-fire-incidents
+#
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: fire_incidents_pgadmin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#      PGADMIN_DEFAULT_PASSWORD: root
+#    ports:
+#      - "8080:80"
+#    depends_on:
+#      - postgres
+#    networks:
+#      - pg-network-fire-incidents
+#
+#volumes:
+#  postgres_data:
+
+#
+#
+#  services:
+#    pgdatabase:
+#      image: postgres:13
+#      environment:
+#        - POSTGRES_USER="root"
+#        - POSTGRES_PASSWORD="root"
+#        - POSTGRES_DB="fire_incidents"
+#      volumes:
+#        - ./fire_incidents_postgres:/var/lib/postgresql/data:rw
+#      ports:
+#        - "5432:5432"
+#    pgadmin:
+#      image: dpage/pgadmin4
+#      environment:
+#        - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+#        - PGADMIN_DEFAULT_PASSWORD=root
+#      ports:
+#        - "8080:80"

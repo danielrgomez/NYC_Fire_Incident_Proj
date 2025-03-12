@@ -1,0 +1,129 @@
+To delete the folder but permissions are not allowing:
+1. Open WSL command and go directly to the directory where the folder is located. For example cd directory/To/Your/Folder
+2. Take ownership of the folder by running the following commands:
+  a. sudo chown -R $(whoami) directory/To/Your/Folder
+  b. sudo chmod -R 755 directory/To/Your/Folder
+3. You should now be able to delete the folder
+_______________________________________________________________________________________________________________________
+
+#To convert jupyter notbook to .py file
+jupyter nbconvert --to=script pull_fire_incidents.ipynb
+
+
+#Create network
+docker network create pg-network-fire-incidents-new
+
+
+#Build container for pull_fire_incidents.py file and Dockerfile
+docker build -t nyc_fire_incidents:v001 .
+
+#Postgres using the network
+docker run -it \
+    -e POSTGRES_USER="root" \
+    -e POSTGRES_PASSWORD="root" \
+    -e POSTGRES_DB="fire_incidents_db" \
+    -v $(pwd)/fire_incidents_postgres:/var/lib/postgresql/data \
+    -p 5432:5432 \
+    --network=pg-network-fire-incidents \
+    --name fire_incidents_db \
+    --hostname=fire_incidents_db \
+    postgres:13
+
+
+#Pgadmin using the network
+ docker run -it\
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -p 8080:80 \
+  --network=pg-network-fire-incidents \
+  --name pgadmin-fire-incidents \
+  dpage/pgadmin4
+
+#IF RUNNING SINGLE CONTAINERS FOR EACH SERVICE. ONE FOR PGADMIN AND ANOTHER FOR POSTGRES
+#Run this through the directory and the data will load to postgres via the SINGLE containers.  
+docker run -it \
+  --network=pg-network-fire-incidents \
+  nyc_fire_incidents:v001 \
+  --api_url=data.cityofnewyork.us \
+  --token=xoIfIdDlHq6gGzxqLqbUeMpsG \
+  --dataset_id=8m42-w767 \
+  --limit_rows=10000 \
+  --username=root \
+  --password=root \
+  --host_name=fire_incidents_db \
+  --port=5432 \
+  --database=fire_incidents_db \
+  --tbl_name=fire_incidents_tbl
+
+
+
+#IF RUNNING USING MULTI CONTAINER AFTER CREATING DOCKER-COMPOSE FILE: 
+#Run this through the directory and the data will load to postgres via the MULTI container.  
+docker run -it \
+  --network=pg-network-fire-incidents \
+  nyc_fire_incidents:v001 \
+  --api_url=data.cityofnewyork.us \
+  --token=xoIfIdDlHq6gGzxqLqbUeMpsG \
+  --dataset_id=8m42-w767 \
+  --limit_rows=10000 \
+  --username=root \
+  --password=root \
+  --host_name=fire_incidents_db_container \
+  --port=5432 \
+  --database=fire_incidents_db \
+  --tbl_name=fire_incidents_tbl
+
+
+#To inspect a network and see what containers are running in it.
+docker network inspect <network_name>
+
+
+
+############----- Variables to Pass Through the .py file -------###################
+#api_url = data.cityofnewyork.us
+#token = cfnfpltKjZgR6Z9rNps2rY8Xn
+#dataset_id = 8m42-w767
+#limit_rows = 50000
+#username = root
+#password = root
+#host = fire_incidents_db
+#port = 5432
+#database = fire_incidents_db
+
+
+
+######Create Airflow Multi Docker Containers 
+Have a separate docker-compose file name it slightly different.
+Run: docker-compose -f docker-compose-airflow.yaml up -d
+The terminal will compose the docker compose file in detach mode so it continues running the containers while it returns back the prompt line
+
+######Recreate the original Docker Compose File
+Run: docker-compose up
+This will add the additional docker containers.
+
+This will have all the containers running under the same multi container directory.
+
+
+######Check whether dependencies were pip installed in each container:
+#Brings back all of the containers that are running:
+docker ps
+#Pulls the sh command line for the specific container. Enter the container id
+docker exec -it container_id /bin/bash
+#Pulls back the pip install list that was installed to the container
+pip list
+
+
+
+######Transfer ownership back to myself:
+#Transfer ownership of file:
+sudo chown $(whoami) /home/dgomezpe/My_Projects/DE_Zoomcamp/NYC_Fire_Incident_Proj/dags/fire_incidents_dag.py
+#Check ownership
+ls -ld /home/dgomezpe/My_Projects/DE_Zoomcamp/NYC_Fire_Incident_Proj/dags
+
+
+
+Original entrypoint.sh
+#!/bin/bash
+pip install -r /requirements.txt
+exec "$@"
+

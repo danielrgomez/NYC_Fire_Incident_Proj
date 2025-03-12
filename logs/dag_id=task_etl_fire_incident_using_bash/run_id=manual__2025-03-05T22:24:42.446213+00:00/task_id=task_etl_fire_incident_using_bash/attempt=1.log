@@ -1,0 +1,38 @@
+[2025-03-05T22:24:46.332+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-05T22:24:46.344+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: task_etl_fire_incident_using_bash.task_etl_fire_incident_using_bash manual__2025-03-05T22:24:42.446213+00:00 [queued]>
+[2025-03-05T22:24:46.350+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: task_etl_fire_incident_using_bash.task_etl_fire_incident_using_bash manual__2025-03-05T22:24:42.446213+00:00 [queued]>
+[2025-03-05T22:24:46.350+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-03-05T22:24:46.369+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): task_etl_fire_incident_using_bash> on 2025-03-05 22:24:42.446213+00:00
+[2025-03-05T22:24:46.375+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=105) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-05T22:24:46.376+0000] {standard_task_runner.py:72} INFO - Started process 107 to run task
+[2025-03-05T22:24:46.376+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'task_etl_fire_incident_using_bash', 'task_etl_fire_incident_using_bash', 'manual__2025-03-05T22:24:42.446213+00:00', '--job-id', '277', '--raw', '--subdir', 'DAGS_FOLDER/fire_incidents_dag.py', '--cfg-path', '/tmp/tmpzljxzng1']
+[2025-03-05T22:24:46.377+0000] {standard_task_runner.py:105} INFO - Job 277: Subtask task_etl_fire_incident_using_bash
+[2025-03-05T22:24:46.413+0000] {task_command.py:467} INFO - Running <TaskInstance: task_etl_fire_incident_using_bash.task_etl_fire_incident_using_bash manual__2025-03-05T22:24:42.446213+00:00 [running]> on host 39ada57e69b2
+[2025-03-05T22:24:46.486+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='***@***.com' AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='task_etl_fire_incident_using_bash' AIRFLOW_CTX_TASK_ID='task_etl_fire_incident_using_bash' AIRFLOW_CTX_EXECUTION_DATE='2025-03-05T22:24:42.446213+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-05T22:24:42.446213+00:00'
+[2025-03-05T22:24:46.487+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-03-05T22:24:46.487+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-03-05T22:24:46.487+0000] {logging_mixin.py:190} INFO - Current task name:task_etl_fire_incident_using_bash state:running start_date:2025-03-05 22:24:46.344860+00:00
+[2025-03-05T22:24:46.487+0000] {logging_mixin.py:190} INFO - Dag name:task_etl_fire_incident_using_bash and current dag run status:running
+[2025-03-05T22:24:46.488+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-03-05T22:24:46.488+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-03-05T22:24:46.489+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'docker ps']
+[2025-03-05T22:24:46.499+0000] {subprocess.py:99} INFO - Output:
+[2025-03-05T22:24:46.524+0000] {subprocess.py:106} INFO - CONTAINER ID   IMAGE                   COMMAND                  CREATED              STATUS                             PORTS                    NAMES
+[2025-03-05T22:24:46.524+0000] {subprocess.py:106} INFO - bde39bacb08d   apache/***:2.10.5   "/usr/bin/dumb-init …"   About a minute ago   Up 49 seconds (healthy)            8080/tcp                 nyc_fire_incident_proj-***-triggerer-1
+[2025-03-05T22:24:46.524+0000] {subprocess.py:106} INFO - 82b444a81f79   apache/***:2.10.5   "/entrypoint.sh airf…"   About a minute ago   Up 49 seconds (healthy)            8080/tcp                 nyc_fire_incident_proj-***-scheduler-1
+[2025-03-05T22:24:46.525+0000] {subprocess.py:106} INFO - 69d14e707d23   apache/***:2.10.5   "/entrypoint.sh airf…"   About a minute ago   Up 49 seconds (health: starting)   0.0.0.0:9090->8080/tcp   nyc_fire_incident_proj-***-webserver-1
+[2025-03-05T22:24:46.525+0000] {subprocess.py:106} INFO - 39ada57e69b2   apache/***:2.10.5   "/entrypoint.sh airf…"   About a minute ago   Up About a minute (healthy)        8080/tcp                 nyc_fire_incident_proj-***-worker-1
+[2025-03-05T22:24:46.525+0000] {subprocess.py:106} INFO - cf0ad1e70070   redis:7.2-bookworm      "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)        6379/tcp                 nyc_fire_incident_proj-redis-1
+[2025-03-05T22:24:46.525+0000] {subprocess.py:106} INFO - e838f1e76978   postgres:13             "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)        5432/tcp                 nyc_fire_incident_proj-postgres-1
+[2025-03-05T22:24:46.526+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2025-03-05T22:24:46.546+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-03-05T22:24:46.547+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=task_etl_fire_incident_using_bash, task_id=task_etl_fire_incident_using_bash, run_id=manual__2025-03-05T22:24:42.446213+00:00, execution_date=20250305T222442, start_date=20250305T222446, end_date=20250305T222446
+[2025-03-05T22:24:46.565+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-03-05T22:24:46.566+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-03-05T22:24:46.566+0000] {logging_mixin.py:190} INFO - Dag name:task_etl_fire_incident_using_bash queued_at:2025-03-05 22:24:42.463928+00:00
+[2025-03-05T22:24:46.566+0000] {logging_mixin.py:190} INFO - Task hostname:39ada57e69b2 operator:BashOperator
+[2025-03-05T22:24:46.590+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-03-05T22:24:46.605+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-03-05T22:24:46.612+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
