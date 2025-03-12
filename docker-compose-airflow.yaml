@@ -157,8 +157,17 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    dns:
+      - 8.8.8.8  # Google DNS
+      - 1.1.1.1  # Cloudflare DNS
     networks:
       - pg-network-fire-incidents
+    extra_hosts:
+      - "spark-master:127.0.0.1"
+    build:
+      context: .
+      dockerfile: Dockerfile.Airflow
+    
 
   airflow-worker:
     image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.5}

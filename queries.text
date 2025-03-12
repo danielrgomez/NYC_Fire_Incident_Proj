@@ -1,0 +1,49 @@
+-- Validating Null Values
+
+SELECT 
+
+	SUM(CASE WHEN starfire_incident_id IS NULL THEN 1 ELSE 0 END) AS starfire_incident_id_count,
+	SUM(CASE WHEN incident_datetime IS NULL THEN 1 ELSE 0 END) AS incident_datetime_count,
+	SUM(CASE WHEN alarm_box_borough IS NULL THEN 1 ELSE 0 END) AS alarm_box_borough_count,
+	SUM(CASE WHEN alarm_box_number IS NULL THEN 1 ELSE 0 END) AS alarm_box_number_count,
+	SUM(CASE WHEN alarm_box_location IS NULL THEN 1 ELSE 0 END) AS alarm_box_location_count,
+	SUM(CASE WHEN incident_borough IS NULL THEN 1 ELSE 0 END) AS incident_borough_count,
+	SUM(CASE WHEN zipcode IS NULL THEN 1 ELSE 0 END) AS zipcode_count,
+	SUM(CASE WHEN policeprecinct IS NULL THEN 1 ELSE 0 END) AS policeprecinct_count,
+	SUM(CASE WHEN citycouncildistrict IS NULL THEN 1 ELSE 0 END) AS citycouncildistrict_count,
+	SUM(CASE WHEN communitydistrict IS NULL THEN 1 ELSE 0 END) AS communitydistrict_count,
+	SUM(CASE WHEN communityschooldistrict IS NULL THEN 1 ELSE 0 END) AS communityschooldistrict_count,
+	SUM(CASE WHEN congressionaldistrict IS NULL THEN 1 ELSE 0 END) AS congressionaldistrict_count,
+	SUM(CASE WHEN alarm_source_description_tx IS NULL THEN 1 ELSE 0 END) AS alarm_source_description_tx_count,
+	SUM(CASE WHEN alarm_level_index_description IS NULL THEN 1 ELSE 0 END) AS alarm_level_index_description_count,
+	SUM(CASE WHEN highest_alarm_level IS NULL THEN 1 ELSE 0 END) AS highest_alarm_level_count,
+	SUM(CASE WHEN incident_classification IS NULL THEN 1 ELSE 0 END) AS incident_classification_count,
+	SUM(CASE WHEN incident_classification_group IS NULL THEN 1 ELSE 0 END) AS incident_classification_group_count,
+	SUM(CASE WHEN dispatch_response_seconds_qy IS NULL THEN 1 ELSE 0 END) AS dispatch_response_seconds_qy_count,
+	SUM(CASE WHEN first_assignment_datetime IS NULL THEN 1 ELSE 0 END) AS first_assignment_datetime_count,
+	SUM(CASE WHEN first_activation_datetime IS NULL THEN 1 ELSE 0 END) AS first_activation_datetime_count,
+	SUM(CASE WHEN incident_close_datetime IS NULL THEN 1 ELSE 0 END) AS incident_close_datetime_count,
+	SUM(CASE WHEN valid_dispatch_rspns_time_indc IS NULL THEN 1 ELSE 0 END) AS valid_dispatch_rspns_time_indc_count,
+	SUM(CASE WHEN valid_incident_rspns_time_indc IS NULL THEN 1 ELSE 0 END) AS valid_incident_rspns_time_indc_count,
+	SUM(CASE WHEN incident_response_seconds_qy IS NULL THEN 1 ELSE 0 END) AS incident_response_seconds_qy_count,
+	SUM(CASE WHEN incident_travel_tm_seconds_qy IS NULL THEN 1 ELSE 0 END) AS incident_travel_tm_seconds_qy_count,
+	SUM(CASE WHEN engines_assigned_quantity IS NULL THEN 1 ELSE 0 END) AS engines_assigned_quantity_count,
+	SUM(CASE WHEN ladders_assigned_quantity IS NULL THEN 1 ELSE 0 END) AS ladders_assigned_quantity_count,
+	SUM(CASE WHEN other_units_assigned_quantity IS NULL THEN 1 ELSE 0 END) AS other_units_assigned_quantity_count,
+	SUM(CASE WHEN first_on_scene_datetime IS NULL THEN 1 ELSE 0 END) AS first_on_scene_datetime_count
+	
+	
+FROM fire_incidents_tbl;
+
+select * from fire_incidents_tbl where policeprecinct is null limit 5;
+
+select * from fire_incidents_tbl where incident_borough = 'MANHATTAN' ORDER BY policeprecinct ASC;
+
+-- Selecting the first field value that appears for each borough. Will use these for null values
+select alarm_box_borough, 
+min(policeprecinct), 
+min(citycouncildistrict),
+min(communitydistrict),
+min(communityschooldistrict),
+min(congressionaldistrict)
+from fire_incidents_tbl group by alarm_box_borough order by alarm_box_borough

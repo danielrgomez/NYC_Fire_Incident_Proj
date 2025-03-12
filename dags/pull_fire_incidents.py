@@ -5,7 +5,7 @@ import psycopg2
 from sqlalchemy import create_engine
 from tenacity import retry, wait_exponential, stop_after_attempt
 from sodapy import Socrata
-    
+from transformations_pyspark import pyspark_transformations
 
 def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
 
@@ -44,6 +44,8 @@ def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
 
 def transform_fire_incidents_data(transform_json_data):
 
+    print("This is the type: ")
+    print(type(transform_json_data))
     #The transform_json_data is converted to a Pandas Dataframe
     df = pd.read_json(transform_json_data)  
 
@@ -66,6 +68,13 @@ def transform_fire_incidents_data(transform_json_data):
     df.other_units_assigned_quantity = df.other_units_assigned_quantity.astype(float)
 
     print('Transformations are Complete')
+
+    
+
+    pyspark_transformations(transform_json_data)
+
+
+    print("PYSPARK COMPLETE!!!!")
 
     #Must serialize the dataframe into json format in order to save the data to the XCom Variable for the next airflow task. Ensures date_formate = 'iso' to maintain the correct dat formatting.
     json_transformed_data = df.to_json(date_format="iso")

@@ -23,6 +23,7 @@ RUN pip install pandas sqlalchemy psycopg2 pyarrow argparse sodapy retry tenacit
 # Copy application code
 WORKDIR /app
 COPY ./dags/pull_fire_incidents.py pull_fire_incidents.py
+COPY ./dags/transformations_pyspark.py transformations_pyspark.py
 
 # Add user airflow_user with UID 50000 and add it to the existing group with GID 0
 RUN useradd -u 50000 -g 0 -m airflow_user && \

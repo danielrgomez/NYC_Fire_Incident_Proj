@@ -1,5 +1,4 @@
-# Stage 2: Create Airflow image
-FROM apache/airflow:2.10.5
+
 
 #USER root
 #
@@ -9,12 +8,27 @@ FROM apache/airflow:2.10.5
 #    && rm -rf /var/lib/apt/lists/*
 
 
+#USER airflow
+
+# Stage 2: Create Airflow image
+FROM apache/airflow:2.10.5
+
+USER root
+
+# Install Java
+RUN apt-get update && apt-get install -y default-jdk && apt-get clean
+
+
 USER airflow
 
-COPY requirements.txt .
+# Install PySpark
+RUN pip install pyspark
+
+
+#COPY requirements.txt .
 
 # Install any other dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+#RUN pip install --no-cache-dir -r requirements.txt
 
 # Install any additional dependencies (non-Python)
 #RUN apt-get update && apt-get upgrade -y && apt-get install -y \
