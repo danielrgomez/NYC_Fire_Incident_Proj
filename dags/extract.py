@@ -1,6 +1,5 @@
 import pandas as pd
 import requests
-from sqlalchemy import create_engine
 from tenacity import retry, wait_exponential, stop_after_attempt
 from sodapy import Socrata
 from other_functions import write_temp_file
