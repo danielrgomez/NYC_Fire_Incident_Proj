@@ -6,9 +6,24 @@ import json
 
 #spark = SparkSession.builder.appName("Transformations_NYC_Fire_Incidents").getOrCreate()
 #print(spark.version)
+#Function to clean null values, The function takes in the following paramters: pyspark dataframe, column name to clean, each of the broughs values to switch to.
+def clean_null_values(df,column_name_to_clean,bronx_value,brooklyn_value,manhattan_value,queens_value,staten_value):
+    df = df.withColumn(
+    column_name_to_clean,
+    when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "BRONX"),bronx_value)
+    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "BROOKLYN"),brooklyn_value)
+    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "MANHATTAN"),manhattan_value)
+    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "QUEENS"),queens_value)
+    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "RICHMOND / STATEN ISLAND"),staten_value)
+    .otherwise(col(column_name_to_clean))
+)
+    return df
+
+
 
 
 def pyspark_transformations(json_results):
+    
     spark = SparkSession.builder \
         .appName("FireIncidents") \
         .config("spark.driver.memory", "4g") \
@@ -23,12 +38,41 @@ def pyspark_transformations(json_results):
     except json.JSONDecodeError as e:
         print(f"Invalid JSON: {e}")
 
-    json_results = f"[{json_results}]"
-        
-    json_list = json.loads(json_results)
-        
-    df = spark.read.json(spark.sparkContext.parallelize([json_list]))
-    df.show()
+    #json_results = f"[{json_results}]"
+    print(type(json_results))
+    print(json_results)
+    #json_results = json_results.replace("'", '"')
+    
+    #json_list = json.loads(json_results)
+    #print("json_list Type: !!")
+    #print(type(json_list))
+#
+    #keys = list(json_list.keys())[:3]  # Get the first 3 keys
+    #for key in keys:
+    #    print(key, ":", json_list[key])
+#   
+
+    #print("Printing JSON LIST")     
+    #print(json_list)
+    #df = spark.read.json(json_results)
+    
+    #df = spark.read.json(spark.sparkContext.parallelize([json_results]))
+    #df.show()
+#
+#    
+#    
+#    #The values presented below correspond to the first entry identified for each field within their respective boroughs. For instance, in the case of the Bronx, the first zip code encountered in the dataset was 10451.  
+#    #For the null values, it is assumed that the newly assigned values will approximate the actual values as closely as possible.
+#    df = clean_null_values(df,"zipcode",10451,11201,10001,11004,10301)
+#    df = clean_null_values(df,"policeprecinct",40,60,1,100,120)
+#    df = clean_null_values(df,"citycouncildistrict",8,33,1,19,49)
+#    df = clean_null_values(df,"communitydistrict",201,301,101,401,501)
+#    df = clean_null_values(df,"communityschooldistrict",7,13,1,7,31)
+#    df = clean_null_values(df,"congressionaldistrict",13,7,7,3,11)
+#
+#    print("Number of pliiceprecinct null values: ")
+#    df.where(df["policeprecinct"].isNull()).select("starfire_incident_id","zipcode","alarm_box_borough").count()
+
     #df = spark.read.json(json_results)
     print("hello world")
     
