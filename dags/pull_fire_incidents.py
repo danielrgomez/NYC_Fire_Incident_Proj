@@ -5,7 +5,20 @@ import psycopg2
 from sqlalchemy import create_engine
 from tenacity import retry, wait_exponential, stop_after_attempt
 from sodapy import Socrata
-from transformations_pyspark import pyspark_transformations
+from transformations_pyspark import main_pyspark_transformations
+
+#Temp File Functions
+from other_functions import write_temp_file
+from other_functions import read_temp_file
+from other_functions import remove_temp_file
+
+
+#Testing saving the json extract as temp file
+import os
+import json
+
+
+
 
 def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
 
@@ -30,13 +43,19 @@ def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
     except requests.exceptions.RequestException as e:
         print(f"Failed to fetch data from API: {e}")
     
+    #Writing temp json file to temp folder
+    print("Writing json temp file to temp folder")
+    write_temp_file(results)
+
     #Creates a pandas dataframe using the results from client
     df = pd.DataFrame.from_records(results)
 
-    print('Extracting is Complete')
+    
     
     #Must serialize the dataframe into json format in order to save the data to the XCom Variable for the next airflow task
     json_extracted_data = df.to_json()
+    print('json_extracted_data has been serialized')
+    
     #Returns the converted json variable
     return json_extracted_data
 
@@ -44,41 +63,15 @@ def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
 
 def transform_fire_incidents_data(transform_json_data):
 
-    print("This is the type: ")
-    print(type(transform_json_data))
-    #The transform_json_data is converted to a Pandas Dataframe
-    df = pd.read_json(transform_json_data)  
+    print('Transforming NYC Fire Incidents Data....') 
 
-    print('Transforming NYC Fire Incidents Data....')
+    #Main Py Spark Transformations
+    print("Starting Main PySpark Transformations")
+    json_transformed_data = main_pyspark_transformations(transform_json_data)
 
-    #Converting fields to correct data types
-    #Date Time Conversions
-    df.incident_datetime = pd.to_datetime(df.incident_datetime)
-    df.first_assignment_datetime = pd.to_datetime(df.first_assignment_datetime)
-    df.first_activation_datetime = pd.to_datetime(df.first_activation_datetime)
-    df.incident_close_datetime = pd.to_datetime(df.incident_close_datetime)
+    print("PySpark Transformations are Complete!")
 
-
-    #Float Conversion
-    df.dispatch_response_seconds_qy = df.dispatch_response_seconds_qy.astype(float)
-    df.incident_response_seconds_qy = df.incident_response_seconds_qy.astype(float)
-    df.incident_travel_tm_seconds_qy = df.incident_travel_tm_seconds_qy.astype(float)
-    df.engines_assigned_quantity = df.engines_assigned_quantity.astype(float)
-    df.ladders_assigned_quantity = df.ladders_assigned_quantity.astype(float)
-    df.other_units_assigned_quantity = df.other_units_assigned_quantity.astype(float)
-
-    print('Transformations are Complete')
-
-    
-
-    pyspark_transformations(transform_json_data)
-
-
-    print("PYSPARK COMPLETE!!!!")
-
-    #Must serialize the dataframe into json format in order to save the data to the XCom Variable for the next airflow task. Ensures date_formate = 'iso' to maintain the correct dat formatting.
-    json_transformed_data = df.to_json(date_format="iso")
-    #Returns the formatted json data.
+    #Returns json_transformed_data 
     return json_transformed_data
     
 

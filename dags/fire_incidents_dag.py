@@ -66,7 +66,6 @@ with DAG(
 
     #Transform Function
     def transform_data(**kwargs):
-        print("Pulling xcom!!!!!")
         task_instance = kwargs['ti']
         extracted_data = task_instance.xcom_pull(task_ids='extract_data_task',key='extract_data_xcom') #Pulls the extract_data_xcom xcom variable which contains the json serialized data from the previous task
         json_transformed_data = transform_fire_incidents_data(extracted_data)
