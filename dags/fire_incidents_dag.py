@@ -3,12 +3,10 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.providers.docker.operators.docker import DockerOperator
-#from pull_fire_incidents import pull_data_via_api
+from extract import extract_fire_incidents_data
+from transform_pyspark import main_pyspark_transformations
+from load import load_fire_incidents_data
 
-from pull_fire_incidents import extract_fire_incidents_data
-from pull_fire_incidents import transform_fire_incidents_data
-from pull_fire_incidents import load_fire_incidents_data
-#from transformations_pyspark import testing_transformations_pyspark
 
 #Variables used for ETL Process 
 api_url='data.cityofnewyork.us'
@@ -68,7 +66,7 @@ with DAG(
     def transform_data(**kwargs):
         task_instance = kwargs['ti']
         extracted_data = task_instance.xcom_pull(task_ids='extract_data_task',key='extract_data_xcom') #Pulls the extract_data_xcom xcom variable which contains the json serialized data from the previous task
-        json_transformed_data = transform_fire_incidents_data(extracted_data)
+        json_transformed_data = main_pyspark_transformations(extracted_data)
         task_instance = kwargs['ti']
         task_instance.xcom_push(key='transformed_data_xcom', value= json_transformed_data) #Pushes the json_transformed_data output to an xcom variable so it can be pulled in the load task
         

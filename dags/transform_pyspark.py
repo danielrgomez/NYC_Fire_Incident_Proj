@@ -1,21 +1,12 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
-from pyspark.sql.functions import to_timestamp, to_date
+from pyspark.sql.functions import to_timestamp
 import json
-import pandas as pd
-
 from pyspark.sql.functions import max
 from pyspark.sql.functions import min
 from pyspark.sql.functions import avg
-
-#Temp File Functions
-from other_functions import write_temp_file
 from other_functions import read_temp_file
 from other_functions import remove_temp_file
-
-
-import os
-import json
 
 
 #Function to clean null values, The function takes in the following paramters: pyspark dataframe, column name to clean, each of the broughs values to switch to.
@@ -93,7 +84,7 @@ def create_json_string_from_df(df):
 
 #Main Transformations using Pyspark
 def main_pyspark_transformations(json_results):
-    
+    print("NEW TRANSFORM FILE")
     spark = SparkSession.builder \
         .appName("FireIncidents") \
         .config("spark.driver.memory", "4g") \
@@ -112,8 +103,7 @@ def main_pyspark_transformations(json_results):
 
     #Creates the spark data frame
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
-    df.show()
-
+    
 
     #The values presented below correspond to the first entry identified for each field within their respective boroughs. For instance, in the case of the Bronx, the first zip code encountered in the dataset was 10451.  
     #For the null values, it is assumed that the newly assigned values will approximate the actual values as closely as possible.
@@ -123,8 +113,7 @@ def main_pyspark_transformations(json_results):
     df = clean_null_values(df,"communitydistrict",201,301,101,401,501)
     df = clean_null_values(df,"communityschooldistrict",7,13,1,7,31)
     df = clean_null_values(df,"congressionaldistrict",13,7,7,3,11)
-
-    print("Number of congressionaldistrict null values: ")
+    print("Null values are clean")
 
 
     #Convert to date time
@@ -132,6 +121,7 @@ def main_pyspark_transformations(json_results):
     df = df.withColumn("first_assignment_datetime", to_timestamp(df["first_assignment_datetime"]))
     df = df.withColumn("first_activation_datetime", to_timestamp(df["first_activation_datetime"]))
     df = df.withColumn("incident_close_datetime", to_timestamp(df["incident_close_datetime"]))
+    print("Converted Fields to Date Time")
 
     #Convert to floats
     df = df.withColumn("dispatch_response_seconds_qy", df["dispatch_response_seconds_qy"].cast("float"))
@@ -140,7 +130,7 @@ def main_pyspark_transformations(json_results):
     df = df.withColumn("engines_assigned_quantity", df["engines_assigned_quantity"].cast("float"))
     df = df.withColumn("ladders_assigned_quantity", df["ladders_assigned_quantity"].cast("float"))
     df = df.withColumn("other_units_assigned_quantity", df["other_units_assigned_quantity"].cast("float"))
-
+    print("Converted Fields to Floats")
 
     #Function to categorize the response times and other quantity type fields. This will be used to aggregate data for OLAP usage.
     df = categorize_float_fields(df,"dispatch_response_seconds_qy","None","Very Low","Low","Medium","High","Very High")
@@ -149,31 +139,36 @@ def main_pyspark_transformations(json_results):
     df = categorize_float_fields(df,"engines_assigned_quantity","None","Minimal","Limited","Moderate","Substantial","Abundant")
     df = categorize_float_fields(df,"ladders_assigned_quantity","None","Minimal","Limited","Moderate","Substantial","Abundant")
     df = categorize_float_fields(df,"other_units_assigned_quantity","None","Minimal","Limited","Moderate","Substantial","Abundant")
-
+    print("Categorized fields based on 5 aggregates")
 
 
     #Calculating Averages for response times by each borough
     total_avg_dispatch_response_seconds_qy_per_borough = df.groupBy("alarm_box_borough").agg(avg("dispatch_response_seconds_qy")).alias("total_avg_dispatch_response_seconds_qy_per_borough")
     total_incident_travel_tm_seconds_qy_per_borough = df.groupBy("alarm_box_borough").agg(avg("incident_travel_tm_seconds_qy")).alias("total_incident_travel_tm_seconds_qy_per_borough")
     total_incident_response_seconds_qy_per_borough = df.groupBy("alarm_box_borough").agg(avg("incident_response_seconds_qy")).alias("total_incident_response_seconds_qy_per_borough")
+    print("Caculated Averages for response times by each borough")
 
     # Join the average back to the original DataFrame
     df = df.join(total_avg_dispatch_response_seconds_qy_per_borough, on="alarm_box_borough", how="left")
     df = df.join(total_incident_travel_tm_seconds_qy_per_borough, on="alarm_box_borough", how="left")
     df = df.join(total_incident_response_seconds_qy_per_borough, on="alarm_box_borough", how="left")
+    print("Joined the Averages back to the PySpark dataframe")
 
     
     df = clean_column(df,"avg(dispatch_response_seconds_qy)","total_avg_dispatch_response_seconds_qy_per_borough")
     df = clean_column(df,"avg(incident_travel_tm_seconds_qy)","total_avg_incident_travel_tm_seconds_qy_per_borough")
     df = clean_column(df,"avg(incident_response_seconds_qy)","total_avg_incident_response_seconds_qy_per_borough")
+    print("Renamed Average Columns")
 
     #Total Resources Assigned to an Incident. Total quantity of Engines, Ladders, and Other Units.
     df = df.withColumn(
         "total_resources_assigned_quantity",
         col("engines_assigned_quantity") + col("ladders_assigned_quantity") + col("other_units_assigned_quantity")
     )
+    print("Created total_resources_assigned_quantity column")
 
     json_string = create_json_string_from_df(df)
+    print("Created json string from PySpark dataframe")
 
     return json_string
     
