@@ -6,7 +6,7 @@ def load_fire_incidents_data(load_json__data,username,password,host_name,port,da
 
 
     print('Loading NYC Fire Incidents Data to Postgres DB....')
-    print("New LOAD FILE")
+    
 
     #The load_json__data is converted to a Pandas Dataframe
     df = pd.read_json(load_json__data)

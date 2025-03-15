@@ -9,7 +9,6 @@ from other_functions import write_temp_file
 def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
 
     print('Extracting NYC Fire Incidents Data via API....')
-    print('NEW EXTRACT FILE!')
     #Sts client to client field using Socrata
     client = Socrata(api_url, token)
 

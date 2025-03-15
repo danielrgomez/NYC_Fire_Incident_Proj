@@ -84,7 +84,7 @@ def create_json_string_from_df(df):
 
 #Main Transformations using Pyspark
 def main_pyspark_transformations(json_results):
-    print("NEW TRANSFORM FILE")
+    
     spark = SparkSession.builder \
         .appName("FireIncidents") \
         .config("spark.driver.memory", "4g") \
@@ -107,12 +107,21 @@ def main_pyspark_transformations(json_results):
 
     #The values presented below correspond to the first entry identified for each field within their respective boroughs. For instance, in the case of the Bronx, the first zip code encountered in the dataset was 10451.  
     #For the null values, it is assumed that the newly assigned values will approximate the actual values as closely as possible.
-    df = clean_null_values(df,"zipcode",10451,11201,10001,11004,10301)
-    df = clean_null_values(df,"policeprecinct",40,60,1,100,120)
-    df = clean_null_values(df,"citycouncildistrict",8,33,1,19,49)
-    df = clean_null_values(df,"communitydistrict",201,301,101,401,501)
-    df = clean_null_values(df,"communityschooldistrict",7,13,1,7,31)
-    df = clean_null_values(df,"congressionaldistrict",13,7,7,3,11)
+    null_fields_and_values = {"zipcode":[10451,11201,10001,11004,10301],
+                          "policeprecinct":[40,60,1,100,120],
+                          "citycouncildistrict":[8,33,1,19,49],
+                          "communitydistrict":[201,301,101,401,501],
+                          "communityschooldistrict":[7,13,1,7,31],
+                          "congressionaldistrict":[13,7,7,3,11]}
+
+    #Runs a for loop to iterate through the dict for fields with null values. It parses through the field name and each value needed to clean
+    for field in null_fields_and_values:
+        df = clean_null_values(df,field,null_fields_and_values[field][0],
+                            null_fields_and_values[field][1],
+                            null_fields_and_values[field][2],
+                            null_fields_and_values[field][3],
+                            null_fields_and_values[field][4])
+
     print("Null values are clean")
 
 
