@@ -1,5 +1,12 @@
 import os
 import json
+import pandas as pd
+
+#Function to convert fields to date time
+def convert_to_date_time_using_pands(df,date_fields_to_convert):
+    for field in date_fields_to_convert:
+        df[field] = pd.to_datetime(df[field])
+    return df
 
 
 def write_temp_file(results):

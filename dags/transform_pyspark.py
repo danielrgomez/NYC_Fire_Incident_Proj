@@ -9,42 +9,60 @@ from other_functions import read_temp_file
 from other_functions import remove_temp_file
 
 
-#Function to clean null values, The function takes in the following paramters: pyspark dataframe, column name to clean, each of the broughs values to switch to.
-def clean_null_values(df,column_name_to_clean,bronx_value,brooklyn_value,manhattan_value,queens_value,staten_value):
+#Function to clean null values, The function takes in the following paramters: pyspark dataframe, dictionary of fields to clean and values to use when null, field to aggregate by, and the aggregate values
+def clean_null_values(df,null_fields_and_values,aggregate_field,aggregate_values):
     
-    df = df.withColumn(
-    column_name_to_clean,
-    when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "BRONX"),bronx_value)
-    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "BROOKLYN"),brooklyn_value)
-    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "MANHATTAN"),manhattan_value)
-    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "QUEENS"),queens_value)
-    .when(col(column_name_to_clean).isNull() & (col("alarm_box_borough") == "RICHMOND / STATEN ISLAND"),staten_value)
-    .otherwise(col(column_name_to_clean))
-)
+    for field in null_fields_and_values:
+        
+        df = df.withColumn(
+        field,
+        when(col(field).isNull() & (col(aggregate_field) == aggregate_values[0]),null_fields_and_values[field][0])
+        .when(col(field).isNull() & (col(aggregate_field) == aggregate_values[1]),null_fields_and_values[field][1])
+        .when(col(field).isNull() & (col(aggregate_field) == aggregate_values[2]),null_fields_and_values[field][2])
+        .when(col(field).isNull() & (col(aggregate_field) == aggregate_values[3]),null_fields_and_values[field][3])
+        .when(col(field).isNull() & (col(aggregate_field) == aggregate_values[4]),null_fields_and_values[field][4])
+        .otherwise(col(field))
+    )
     return df
 
-def categorize_float_fields(df,column_name,none,very_low,low,medium,high,very_high):
-    # Returns the max response
-    max_quantity = df.agg(max(column_name).alias("max_response_alias")).collect()[0]
-    max_quantity = max_quantity["max_response_alias"] 
+#Function to convert fields to date time
+def convert_to_date_time(df,date_fields_to_convert):
+    for field in date_fields_to_convert:
+        df = df.withColumn(field, to_timestamp(df[field]))
+    return df
 
-    # Returns the min quantity
-    min_quantity = df.agg(min(column_name).alias("min_response_alias")).collect()[0]
-    min_quantity = min_quantity["min_response_alias"]
+#Function to convert fields to floats
+def convert_to_float(df,date_fields_to_convert):
+    for field in date_fields_to_convert:
+        df = df.withColumn(field, df[field].cast("float"))
+    return df
 
-    #Calculates the category interval this is to determine the intervals between each category. 5 Categories were chosen.
-    category_interval = (max_quantity - min_quantity) / 5
+#Function to categorize floats into aggregate buckets
+def categorize_float_fields(df,fields_to_categorize):
     
-    #Categorizes each quantity column using the range between the max and min
-    df = df.withColumn(
-        "category_" + column_name,
-        when((col(column_name) == 0),none)
-        .when((col(column_name) > 0) & (col(column_name) <= category_interval),very_low)
-        .when((col(column_name) > category_interval) & (col(column_name) <= (category_interval*2)),low)
-        .when((col(column_name) > (category_interval*2)) & (col(column_name) <= (category_interval*3)),medium)
-        .when((col(column_name) > (category_interval*3)) & (col(column_name) <= (category_interval*4)),high)
-        .otherwise(very_high)
-    )
+    for field in fields_to_categorize:
+    
+        # Returns the max response
+        max_quantity = df.agg(max(field).alias("max_response_alias")).collect()[0]
+        max_quantity = max_quantity["max_response_alias"] 
+    
+        # Returns the min quantity
+        min_quantity = df.agg(min(field).alias("min_response_alias")).collect()[0]
+        min_quantity = min_quantity["min_response_alias"]
+    
+        #Calculates the category interval this is to determine the intervals between each category. 5 Categories were chosen.
+        category_interval = (max_quantity - min_quantity) / 5
+        
+        #Categorizes each quantity column using the range between the max and min
+        df = df.withColumn(
+            "category_" + field,
+            when((col(field) == 0),fields_to_categorize[field][0])
+            .when((col(field) > 0) & (col(field) <= category_interval),fields_to_categorize[field][1])
+            .when((col(field) > category_interval) & (col(field) <= (category_interval*2)),fields_to_categorize[field][2])
+            .when((col(field) > (category_interval*2)) & (col(field) <= (category_interval*3)),fields_to_categorize[field][3])
+            .when((col(field) > (category_interval*3)) & (col(field) <= (category_interval*4)),fields_to_categorize[field][4])
+            .otherwise(fields_to_categorize[field][5])
+        )
     
     return df
 
@@ -52,10 +70,25 @@ def categorize_float_fields(df,column_name,none,very_low,low,medium,high,very_hi
 #Renaming Columns and Casting to Float Types
 def clean_column(df,column_name_before,column_name_after):
     df = df.withColumnRenamed(column_name_before, column_name_after)
-
     df = df.withColumn(column_name_after, col(column_name_after).cast("float"))
-    
     return df
+
+#Calcualtes averages of float fields
+def calculate_averages(df,fields_to_calculate_averages,aggregate_field):
+    for field in fields_to_calculate_averages:
+        total_avg = df.groupBy(aggregate_field).agg(avg(field)).alias("total_avg_"+field+"_per_borough")
+        df = df.join(total_avg, on=aggregate_field, how="left")
+        df = clean_column(df,f'avg({field})',f'total_avg_{field}_per_borough')
+    return df
+
+#Sums numerical fields to create a total amount
+def sum_fields(df,sum_field_name,fields_to_sum):
+    df = df.withColumn(
+        sum_field_name,
+        col(fields_to_sum[0]) + col(fields_to_sum[1]) + col(fields_to_sum[2])
+    )
+    return df
+
 
 #Validate json format
 def validate_json_format(json_results):
@@ -64,7 +97,6 @@ def validate_json_format(json_results):
         print("Valid JSON")
     except json.JSONDecodeError as e:
         print(f"Invalid JSON: {e}")
-
 
 #Create JSON String from the Pyspark Dataframe
 def create_json_string_from_df(df):
@@ -82,9 +114,11 @@ def create_json_string_from_df(df):
 
 
 
-#Main Transformations using Pyspark
+#--------------Main Transformations using Pyspark--------------
 def main_pyspark_transformations(json_results):
     
+    print("Starting PySpark Transformations...")
+
     spark = SparkSession.builder \
         .appName("FireIncidents") \
         .config("spark.driver.memory", "4g") \
@@ -92,14 +126,18 @@ def main_pyspark_transformations(json_results):
         .config("spark.driver.maxResultSize", "4g") \
         .getOrCreate()
 
+
     # Validate JSON format
     validate_json_format(json_results)
    
+
     #Reads json temp file
     read_json_data = read_temp_file()
 
+
     #Removes json temp file
     remove_temp_file()
+
 
     #Creates the spark data frame
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
@@ -114,70 +152,52 @@ def main_pyspark_transformations(json_results):
                           "communityschooldistrict":[7,13,1,7,31],
                           "congressionaldistrict":[13,7,7,3,11]}
 
-    #Runs a for loop to iterate through the dict for fields with null values. It parses through the field name and each value needed to clean
-    for field in null_fields_and_values:
-        df = clean_null_values(df,field,null_fields_and_values[field][0],
-                            null_fields_and_values[field][1],
-                            null_fields_and_values[field][2],
-                            null_fields_and_values[field][3],
-                            null_fields_and_values[field][4])
-
+    aggregate_field = "alarm_box_borough"
+    aggregate_values = ["BRONX","BROOKLYN","MANHATTAN","QUEENS","RICHMOND / STATEN ISLAND"]
+    df = clean_null_values(df,null_fields_and_values,aggregate_field,aggregate_values)
     print("Null values are clean")
 
 
-    #Convert to date time
-    df = df.withColumn("incident_datetime", to_timestamp(df["incident_datetime"]))
-    df = df.withColumn("first_assignment_datetime", to_timestamp(df["first_assignment_datetime"]))
-    df = df.withColumn("first_activation_datetime", to_timestamp(df["first_activation_datetime"]))
-    df = df.withColumn("incident_close_datetime", to_timestamp(df["incident_close_datetime"]))
-    print("Converted Fields to Date Time")
-
     #Convert to floats
-    df = df.withColumn("dispatch_response_seconds_qy", df["dispatch_response_seconds_qy"].cast("float"))
-    df = df.withColumn("incident_response_seconds_qy", df["incident_response_seconds_qy"].cast("float"))
-    df = df.withColumn("incident_travel_tm_seconds_qy", df["incident_travel_tm_seconds_qy"].cast("float"))
-    df = df.withColumn("engines_assigned_quantity", df["engines_assigned_quantity"].cast("float"))
-    df = df.withColumn("ladders_assigned_quantity", df["ladders_assigned_quantity"].cast("float"))
-    df = df.withColumn("other_units_assigned_quantity", df["other_units_assigned_quantity"].cast("float"))
+    numerical_fields_to_convert = ["dispatch_response_seconds_qy",
+                                   "incident_response_seconds_qy",
+                                   "incident_travel_tm_seconds_qy",
+                                   "engines_assigned_quantity",
+                                   "ladders_assigned_quantity",
+                                   "other_units_assigned_quantity"]
+    df = convert_to_float(df,numerical_fields_to_convert)
     print("Converted Fields to Floats")
 
+
     #Function to categorize the response times and other quantity type fields. This will be used to aggregate data for OLAP usage.
-    df = categorize_float_fields(df,"dispatch_response_seconds_qy","None","Very Low","Low","Medium","High","Very High")
-    df = categorize_float_fields(df,"incident_response_seconds_qy","None","Very Low","Low","Medium","High","Very High")
-    df = categorize_float_fields(df,"incident_travel_tm_seconds_qy","None","Very Low","Low","Medium","High","Very High")
-    df = categorize_float_fields(df,"engines_assigned_quantity","None","Minimal","Limited","Moderate","Substantial","Abundant")
-    df = categorize_float_fields(df,"ladders_assigned_quantity","None","Minimal","Limited","Moderate","Substantial","Abundant")
-    df = categorize_float_fields(df,"other_units_assigned_quantity","None","Minimal","Limited","Moderate","Substantial","Abundant")
+    fields_to_categorize = {"dispatch_response_seconds_qy":["None","Very Low","Low","Medium","High","Very High"],
+    "incident_response_seconds_qy":["None","Very Low","Low","Medium","High","Very High"],
+    "incident_travel_tm_seconds_qy":["None","Very Low","Low","Medium","High","Very High"],
+    "engines_assigned_quantity":["None","Minimal","Limited","Moderate","Substantial","Abundant"],
+    "ladders_assigned_quantity":["None","Minimal","Limited","Moderate","Substantial","Abundant"],
+    "other_units_assigned_quantity":["None","Minimal","Limited","Moderate","Substantial","Abundant"]}
+    df = categorize_float_fields(df,fields_to_categorize)
     print("Categorized fields based on 5 aggregates")
 
 
-    #Calculating Averages for response times by each borough
-    total_avg_dispatch_response_seconds_qy_per_borough = df.groupBy("alarm_box_borough").agg(avg("dispatch_response_seconds_qy")).alias("total_avg_dispatch_response_seconds_qy_per_borough")
-    total_incident_travel_tm_seconds_qy_per_borough = df.groupBy("alarm_box_borough").agg(avg("incident_travel_tm_seconds_qy")).alias("total_incident_travel_tm_seconds_qy_per_borough")
-    total_incident_response_seconds_qy_per_borough = df.groupBy("alarm_box_borough").agg(avg("incident_response_seconds_qy")).alias("total_incident_response_seconds_qy_per_borough")
+    #Calculate Averages for dispatch_response_seconds_qy, incident_travel_tm_seconds_qy, and incident_response_seconds_qy by alarm_box_borough
+    aggregate_field = "alarm_box_borough"
+    fields_to_calculate_averages = ["dispatch_response_seconds_qy","incident_travel_tm_seconds_qy","incident_response_seconds_qy"]
+    df = calculate_averages(df,fields_to_calculate_averages,aggregate_field)
     print("Caculated Averages for response times by each borough")
-
-    # Join the average back to the original DataFrame
-    df = df.join(total_avg_dispatch_response_seconds_qy_per_borough, on="alarm_box_borough", how="left")
-    df = df.join(total_incident_travel_tm_seconds_qy_per_borough, on="alarm_box_borough", how="left")
-    df = df.join(total_incident_response_seconds_qy_per_borough, on="alarm_box_borough", how="left")
-    print("Joined the Averages back to the PySpark dataframe")
-
     
-    df = clean_column(df,"avg(dispatch_response_seconds_qy)","total_avg_dispatch_response_seconds_qy_per_borough")
-    df = clean_column(df,"avg(incident_travel_tm_seconds_qy)","total_avg_incident_travel_tm_seconds_qy_per_borough")
-    df = clean_column(df,"avg(incident_response_seconds_qy)","total_avg_incident_response_seconds_qy_per_borough")
-    print("Renamed Average Columns")
 
     #Total Resources Assigned to an Incident. Total quantity of Engines, Ladders, and Other Units.
-    df = df.withColumn(
-        "total_resources_assigned_quantity",
-        col("engines_assigned_quantity") + col("ladders_assigned_quantity") + col("other_units_assigned_quantity")
-    )
+    sum_field_name = "total_resources_assigned_quantity"
+    fields_to_sum = ["engines_assigned_quantity","ladders_assigned_quantity","other_units_assigned_quantity"]
+    df = sum_fields(df,sum_field_name,fields_to_sum)
     print("Created total_resources_assigned_quantity column")
+    
 
+    #Creates a json string from the dataframe
     json_string = create_json_string_from_df(df)
     print("Created json string from PySpark dataframe")
-
+    
+    print("Transformations Complete!")
     return json_string
     

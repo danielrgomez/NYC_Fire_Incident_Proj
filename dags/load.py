@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
+from other_functions import convert_to_date_time_using_pands
 
 def load_fire_incidents_data(load_json__data,username,password,host_name,port,database,tbl_name):
 
@@ -10,6 +11,15 @@ def load_fire_incidents_data(load_json__data,username,password,host_name,port,da
 
     #The load_json__data is converted to a Pandas Dataframe
     df = pd.read_json(load_json__data)
+
+
+    date_fields_to_convert = ["incident_datetime",
+                              "first_assignment_datetime",
+                              "first_activation_datetime",
+                              "incident_close_datetime",
+                              "first_on_scene_datetime"]
+    df = convert_to_date_time_using_pands(df,date_fields_to_convert)
+    print('Convert Dates Preload')
 
     #Creating the engine postgressql://username:password@host:port/db_name
     engine = create_engine(f'postgresql://{username}:{password}@{host_name}:{port}/{database}')
