@@ -127,3 +127,6 @@ Original entrypoint.sh
 pip install -r /requirements.txt
 exec "$@"
 
+Troubleshooting ModuleNotFound PySpark
+docker build -t airflow-custom:latest -f Dockerfile.Airflow .
+docker-compose -f docker-compose-airflow.yaml up -d

@@ -43,6 +43,7 @@ USER root
 #RUN apt-get update && apt-get install -y openjdk-11-jdk && apt-get clean
 RUN apt-get update && apt-get install -y default-jdk && apt-get clean
 
+#
 # Switch back to the airflow user
 USER airflow
 
