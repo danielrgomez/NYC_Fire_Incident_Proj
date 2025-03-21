@@ -62,7 +62,7 @@ def main_traffic_nyc_pyspark_transformations(json_results,data_source):
     #Creates the spark data frame
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
 
-    #NEW Transformation Function
+    #NEW Transformation Function NEW NEW
     #date_time_fields = ['m','d','hh','mm']
     #df = clean_up_date_time(date_time_fields,df)
     #print("Date and Time Fields Cleaned")
