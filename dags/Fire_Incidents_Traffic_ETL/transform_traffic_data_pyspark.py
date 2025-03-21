@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import when, col, to_timestamp, to_date, to_timestamp, concat, lit, upper, length
+from pyspark.sql.functions import when, col, to_timestamp, to_timestamp, concat, lit, upper, length
 import json
 from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
 from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
@@ -25,6 +25,15 @@ def create_json_string_from_df(df):
     json_string = "[" + ",".join(json_list) + "]"
     
     return json_string
+
+def clean_up_date_time(date_time_fields,df):
+    #Clean up column
+    for fields in date_time_fields:
+        df = df.withColumn(
+                fields,
+                when(length(col(fields)) == 1 ,concat(lit("0"),col(fields)))
+                .otherwise(col(fields)))
+        return df
 
 
 def main_traffic_nyc_pyspark_transformations(json_results,data_source):
@@ -52,6 +61,11 @@ def main_traffic_nyc_pyspark_transformations(json_results,data_source):
 
     #Creates the spark data frame
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
+
+    #NEW Transformation Function
+    #date_time_fields = ['m','d','hh','mm']
+    #df = clean_up_date_time(date_time_fields,df)
+    #print("Date and Time Fields Cleaned")
 
     #Clean up month column
     df = df.withColumn(
