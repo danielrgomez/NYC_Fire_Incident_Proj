@@ -25,6 +25,8 @@ services:
       - "8080:80"
     networks:
       - pg-network-fire-incidents
+
+    
         
 networks:
   pg-network-fire-incidents:

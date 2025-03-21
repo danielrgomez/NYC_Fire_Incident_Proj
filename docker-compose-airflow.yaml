@@ -62,11 +62,7 @@ x-airflow-common:
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
-    DOCKER_HOST: unix:///var/run/docker.sock  # <-- Add this line
-
-    
-    #PYSPARK_SUBMIT_ARGS: --verbose pyspark-shell
-    
+    DOCKER_HOST: unix:///var/run/docker.sock  # <-- Add this line   
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -189,16 +185,12 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
       AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
       AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
-      _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
-      #JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
-      #PATH: /usr/lib/jvm/java-11-openjdk-amd64/bin
-      
-      #PYSPARK_SUBMIT_ARGS: --verbose pyspark-shell
-      
+      _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}      
       DOCKER_HOST: unix:///var/run/docker.sock  # <-- Used to configure the Docker client to communicate with the Docker daemon.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./dags:/opt/airflow/dags                  # DAGs directory
+      #- ./dags:/opt/airflow/dags                  # DAGs directory
+      - ./dags/Fire_Incidents_ETL:/opt/airflow/dags/Fire_Incidents_ETL
       - ./logs:/opt/airflow/logs                  # Logs directory
       - ./plugins:/opt/airflow/plugins            # Plugins directory
       - ./requirements.txt:/requirements.txt      # Requirements directory
@@ -223,9 +215,7 @@ services:
     restart: always
     networks:
       - pg-network-fire-incidents
-    #build:
-    #  context: .
-    #  dockerfile: Dockerfile.Airflow
+
 
   airflow-triggerer:
     <<: *airflow-common

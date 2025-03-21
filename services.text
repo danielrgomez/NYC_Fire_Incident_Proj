@@ -128,5 +128,43 @@ pip install -r /requirements.txt
 exec "$@"
 
 Troubleshooting ModuleNotFound PySpark
+First build the image using the Dockerfile.Airflow:
 docker build -t airflow-custom:latest -f Dockerfile.Airflow .
+Docker Compose up the rest of the services:
 docker-compose -f docker-compose-airflow.yaml up -d
+docker-compose up -d
+
+
+
+To set up Jupyter Notebook:
+Ensure Dockerfile looks like this:
+
+FROM jupyter/base-notebook
+WORKDIR /home/jovyan/work
+COPY ./Jupyter_Notebook /home/jovyan/work
+EXPOSE 8888
+CMD ["start-notebook.sh"]
+
+docker build -t jupyter-notebook .
+
+docker run -p 8888:8888 -v /My_Projects/DE_Zoomcamp/NYC_Fire_Incident_Proj:/workspace jupyter-notebook
+
+
+
+
+
+
+To set up Jupyter Notebook with Pyspark:
+Dockerfile:
+FROM jupyter/base-notebook:latest
+USER root
+RUN apt-get update && apt-get install -y default-jdk && apt-get clean
+RUN pip install pyspark findspark pandas sqlalchemy psycopg2-binary pyarrow argparse sodapy retry tenacity
+WORKDIR /home/jovyan/work
+COPY ./Jupyter_Notebook /home/jovyan/work
+EXPOSE 8888
+
+Run in terminal:
+docker build -t jupyter-pyspark .
+
+docker run -p 8888:8888 -v /Directory/Location/You/Want/To/Use/:/workspace jupyter-pyspark

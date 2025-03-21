@@ -5,8 +5,8 @@ import json
 from pyspark.sql.functions import max
 from pyspark.sql.functions import min
 from pyspark.sql.functions import avg
-from other_functions import read_temp_file
-from other_functions import remove_temp_file
+from Fire_Incidents_ETL.other_functions import read_temp_file
+from Fire_Incidents_ETL.other_functions import remove_temp_file
 
 
 #Function to clean null values, The function takes in the following paramters: pyspark dataframe, dictionary of fields to clean and values to use when null, field to aggregate by, and the aggregate values
@@ -115,7 +115,7 @@ def create_json_string_from_df(df):
 
 
 #--------------Main Transformations using Pyspark--------------
-def main_pyspark_transformations(json_results):
+def main_pyspark_transformations(json_results,data_source):
     
     print("Starting PySpark Transformations...")
 
@@ -132,11 +132,11 @@ def main_pyspark_transformations(json_results):
    
 
     #Reads json temp file
-    read_json_data = read_temp_file()
+    read_json_data = read_temp_file(data_source)
 
 
     #Removes json temp file
-    remove_temp_file()
+    remove_temp_file(data_source)
 
 
     #Creates the spark data frame

@@ -2,13 +2,13 @@ import pandas as pd
 import requests
 from tenacity import retry, wait_exponential, stop_after_attempt
 from sodapy import Socrata
-from other_functions import write_temp_file
+from Fire_Incidents_ETL.other_functions import write_temp_file
 
 
 
-def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
+def extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source):
 
-    print('Extracting NYC Fire Incidents Data via API....')
+    print('Extracting Data via API....')
     #Sts client to client field using Socrata
     client = Socrata(api_url, token)
 
@@ -29,7 +29,7 @@ def extract_fire_incidents_data(api_url,token,dataset_id,limit_rows):
     
     #Writing temp json file to temp folder
     print("Writing json temp file to temp folder")
-    write_temp_file(results)
+    write_temp_file(results,data_source)
 
     #Creates a pandas dataframe using the results from client
     df = pd.DataFrame.from_records(results)

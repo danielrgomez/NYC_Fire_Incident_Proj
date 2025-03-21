@@ -1,8 +1,8 @@
 import pandas as pd
 from sqlalchemy import create_engine
-from other_functions import convert_to_date_time_using_pands
+from Fire_Incidents_ETL.other_functions import convert_to_date_time_using_pands
 
-def load_fire_incidents_data(load_json__data,username,password,host_name,port,database,tbl_name):
+def load_data_to_postgres(load_json__data,username,password,host_name,port,database,tbl_name,data_source,schema_name):
 
 
 
@@ -12,20 +12,25 @@ def load_fire_incidents_data(load_json__data,username,password,host_name,port,da
     #The load_json__data is converted to a Pandas Dataframe
     df = pd.read_json(load_json__data)
 
-
-    date_fields_to_convert = ["incident_datetime",
-                              "first_assignment_datetime",
-                              "first_activation_datetime",
-                              "incident_close_datetime",
-                              "first_on_scene_datetime"]
-    df = convert_to_date_time_using_pands(df,date_fields_to_convert)
-    print('Convert Dates Preload')
+    #Coverts date fields preload
+    if data_source == "fire_incident_data":
+        date_fields_to_convert = ["incident_datetime",
+                                "first_assignment_datetime",
+                                "first_activation_datetime",
+                                "incident_close_datetime",
+                                "first_on_scene_datetime"]
+        df = convert_to_date_time_using_pands(df,date_fields_to_convert)
+        print('Convert Dates Preload')
+    elif data_source == "traffic_data":
+        date_fields_to_convert = ["report_date_time"]
+        df = convert_to_date_time_using_pands(df,date_fields_to_convert)
+        print('Convert Dates Preload')
 
     #Creating the engine postgressql://username:password@host:port/db_name
     engine = create_engine(f'postgresql://{username}:{password}@{host_name}:{port}/{database}')
 
     #Defines a schema, names it to fire_incidents_schema, and then assigns it to postgres
-    print(pd.io.sql.get_schema(df,name='fire_incidents_schema',con=engine))
+    print(pd.io.sql.get_schema(df,name=schema_name,con=engine))
 
     #Creates the table in postgres with only the field names. Name = fire_incidents_tbl, Engine is the postgres database, if_exists = 'replace' if a table already exists with this name it will replace it
     df.head(n=0).to_sql(name= tbl_name,con=engine,if_exists='replace')
