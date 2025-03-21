@@ -190,7 +190,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       #- ./dags:/opt/airflow/dags                  # DAGs directory
-      - ./dags/Fire_Incidents_ETL:/opt/airflow/dags/Fire_Incidents_ETL
+      - ./dags/Fire_Incidents_Traffic_ETL:/opt/airflow/dags/Fire_Incidents_Traffic_ETL
       - ./logs:/opt/airflow/logs                  # Logs directory
       - ./plugins:/opt/airflow/plugins            # Plugins directory
       - ./requirements.txt:/requirements.txt      # Requirements directory

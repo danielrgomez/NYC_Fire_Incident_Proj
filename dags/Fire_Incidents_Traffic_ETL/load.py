@@ -1,6 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
-from Fire_Incidents_ETL.other_functions import convert_to_date_time_using_pands
+from Fire_Incidents_Traffic_ETL.other_functions import convert_to_date_time_using_pands
 
 def load_data_to_postgres(load_json__data,username,password,host_name,port,database,tbl_name,data_source,schema_name):
 

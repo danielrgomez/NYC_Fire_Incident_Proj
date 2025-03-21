@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 from tenacity import retry, wait_exponential, stop_after_attempt
 from sodapy import Socrata
-from Fire_Incidents_ETL.other_functions import write_temp_file
+from Fire_Incidents_Traffic_ETL.other_functions import write_temp_file
 
 
 

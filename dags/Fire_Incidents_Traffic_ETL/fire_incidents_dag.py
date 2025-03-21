@@ -3,9 +3,9 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.providers.docker.operators.docker import DockerOperator
-from Fire_Incidents_ETL.extract import extract_data_via_api
-from Fire_Incidents_ETL.transform_pyspark import main_pyspark_transformations
-from Fire_Incidents_ETL.load import load_data_to_postgres
+from Fire_Incidents_Traffic_ETL.extract import extract_data_via_api
+from Fire_Incidents_Traffic_ETL.transform_pyspark import main_pyspark_transformations
+from Fire_Incidents_Traffic_ETL.load import load_data_to_postgres
 
 
 #Variables used for ETL Process 

@@ -1,8 +1,8 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col, to_timestamp, to_date, to_timestamp, concat, lit, upper, length
 import json
-from Fire_Incidents_ETL.other_functions import read_temp_file
-from Fire_Incidents_ETL.other_functions import remove_temp_file
+from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
+from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
 
 
 #Validate json format
@@ -82,6 +82,14 @@ def main_traffic_nyc_pyspark_transformations(json_results,data_source):
     #Make Borough Upper Case
     df = df.withColumn("boro", upper(df.boro))
     print("Uppercase boro")
+
+    #Staten Island becomes RICHMOND / STATEN ISLAND
+    df = df.withColumn(
+        'boro',
+        when(col('boro') == 'STATEN ISLAND','RICHMOND / STATEN ISLAND')
+        .otherwise(col('boro'))
+    )
+    print("Converted Staten Island Values")
 
     #Convert vol to integer
     df = df.withColumn('vol', df['vol'].cast("int"))

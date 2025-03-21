@@ -5,8 +5,8 @@ import json
 from pyspark.sql.functions import max
 from pyspark.sql.functions import min
 from pyspark.sql.functions import avg
-from Fire_Incidents_ETL.other_functions import read_temp_file
-from Fire_Incidents_ETL.other_functions import remove_temp_file
+from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
+from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
 
 
 #Function to clean null values, The function takes in the following paramters: pyspark dataframe, dictionary of fields to clean and values to use when null, field to aggregate by, and the aggregate values
