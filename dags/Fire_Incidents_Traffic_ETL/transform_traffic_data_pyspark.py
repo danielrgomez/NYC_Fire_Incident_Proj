@@ -33,7 +33,7 @@ def clean_up_date_time(date_time_fields,df):
                 fields,
                 when(length(col(fields)) == 1 ,concat(lit("0"),col(fields)))
                 .otherwise(col(fields)))
-        return df
+    return df
 
 
 def main_traffic_nyc_pyspark_transformations(json_results,data_source):
@@ -63,30 +63,9 @@ def main_traffic_nyc_pyspark_transformations(json_results,data_source):
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
 
     #NEW Transformation Function NEW NEW
-    #date_time_fields = ['m','d','hh','mm']
-    #df = clean_up_date_time(date_time_fields,df)
-    #print("Date and Time Fields Cleaned")
-
-    #Clean up month column
-    df = df.withColumn(
-            'm',
-            when(length(df.m) == 1 ,concat(lit("0"),df.m))
-            .otherwise(df.m))
-    #Clean up day column
-    df = df.withColumn(
-            'd',
-            when(length(df.d) == 1 ,concat(lit("0"),df.d))
-            .otherwise(df.d))
-    #Clean up month column
-    df = df.withColumn(
-            'hh',
-            when(length(df.hh) == 1 ,concat(lit("0"),df.hh))
-            .otherwise(df.hh))
-    #Clean up day column
-    df = df.withColumn(
-            'mm',
-            when(length(df.mm) == 1 ,concat(lit("0"),df.mm))
-            .otherwise(df.mm))
+    date_time_fields = ['m','d','hh','mm']
+    df = clean_up_date_time(date_time_fields,df)
+    print("Date and Time Fields Cleaned")
 
     #Create new field called report_date_time which concatenates yr,m,d,hh,mm and converts to datetime field in dataframe
     df = df.withColumn("report_date_time",concat(df.yr,lit("-"),df.m,lit("-"),df.d,lit(" "),df.hh,lit(":"),df.mm,lit(":00")))
