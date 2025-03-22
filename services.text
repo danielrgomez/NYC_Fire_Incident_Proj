@@ -10,8 +10,14 @@ ________________________________________________________________________________
 jupyter nbconvert --to=script pull_fire_incidents.ipynb
 
 
-#Create network
+#Networks
+#Create Network:
 docker network create pg-network-fire-incidents-new
+#Connect Jupyter Notebook to Network:
+docker network connect network_name docker_container_name
+#Inspect Network to see containers running:
+docker inspect network_name
+
 
 
 #Build container for pull_fire_incidents.py file and Dockerfile
@@ -77,6 +83,8 @@ docker run -it \
 #To inspect a network and see what containers are running in it.
 docker network inspect <network_name>
 
+#To connect a container to an existing network:
+docker network connect my_custom_network my_container
 
 
 ############----- Variables to Pass Through the .py file -------###################
@@ -169,3 +177,7 @@ docker build -t jupyter-pyspark .
 
 docker run -p 8888:8888 -v /Directory/Location/You/Want/To/Use/:/workspace jupyter-pyspark
 
+
+
+Run the following in terminal to have jupyter notebook mounted to local directory
+docker run -p 8888:8888 -v path/to/local/directory:/home/jovyan/work pyspark-notebook
