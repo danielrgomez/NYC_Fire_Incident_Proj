@@ -184,3 +184,4 @@ docker run -p 8888:8888 -v path/to/local/directory:/home/jovyan/work pyspark-not
 
 Run the following in terminal to have jupyter notebook mounted to local directory and bring in the aws credentials
 docker run -v ~/.aws:/root/.aws -v ./Jupyter_Notebook:/home/jovyan/work -p 8888:8888 jupyter-pyspark
+testing
