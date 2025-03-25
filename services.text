@@ -185,3 +185,6 @@ docker run -p 8888:8888 -v path/to/local/directory:/home/jovyan/work pyspark-not
 Run the following in terminal to have jupyter notebook mounted to local directory and bring in the aws credentials
 docker run -v ~/.aws:/root/.aws -v ./Jupyter_Notebook:/home/jovyan/work -p 8888:8888 jupyter-pyspark
 testing
+
+Run the following to have jupyter notebook be able to pull the aws_access_key and secret_access key and have it run from a specific directory on port 8888
+docker run -e AWS_ACCESS_KEY_ID=my_access_key -e AWS_SECRET_ACCESS_KEY=my_secret_access -v ./Jupyter_Notebook:/home/jovyan/work -p 8888:8888 jupyter-pyspark
