@@ -1,7 +1,8 @@
 import psycopg2
 import csv
-#import boto3
+import boto3
 from tenacity import retry, wait_exponential, stop_after_attempt
+import os
 
 
 def export_data_to_csv(database,user_name,pwd,host_name,port_number,tbl_name,data_name):
@@ -14,8 +15,28 @@ def export_data_to_csv(database,user_name,pwd,host_name,port_number,tbl_name,dat
     )
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM " + f'{tbl_name}')
+
+    current_directory = os.getcwd()
+    print("Current Directory:", current_directory)
+
+
+    #Save to temp folder
+    current_dir = os.getcwd()
+    temp_folder = os.path.join(current_dir, 'temp_csv_files')
+
+    # Create the temp folder if it doesn't exist
+    if not os.path.exists(temp_folder):
+        os.makedirs(temp_folder)
+
+    # Define the path to the JSON file
+    file_path = os.path.join(temp_folder, 'exported_' + f'{data_name}'+'.csv')
+
+    # Write the JSON output to the file
+    #with open(file_path, "w", encoding="utf-8") as file:
+    #    json.dump(results, file, indent=4)
+    #print("JSON Temp File Written")
     
-    with open('./temp_csv_files/exported_' + f'{data_name}'+'.csv', 'w', newline='') as file:
+    with open(file_path, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([i[0] for i in cursor.description])  # Write headers
         writer.writerows(cursor.fetchall())  # Write data

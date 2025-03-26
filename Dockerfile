@@ -6,7 +6,7 @@ USER root
 RUN apt-get update && apt-get install -y default-jdk && apt-get clean
 
 # Install PySpark
-RUN pip install pyspark findspark pandas sqlalchemy psycopg2-binary pyarrow argparse sodapy retry tenacity
+RUN pip install pyspark findspark pandas sqlalchemy psycopg2-binary pyarrow argparse sodapy retry tenacity boto3
 
 
 # Set working directory inside the container

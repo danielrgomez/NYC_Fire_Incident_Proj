@@ -81,6 +81,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins     # Plugins directory 
     - ./requirements.txt:/requirements.txt                    # Requirements directory     
     - ./entrypoint.sh:/entrypoint.sh                          # Entrypoint.sh diretory
+    - ~/.aws:/root/.aws
   user: "${AIRFLOW_UID:-50000}:1001"                          # Airflow UID = 50000 Docker Group 1001
   depends_on:
     &airflow-common-depends-on
@@ -190,8 +191,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       #- ./dags:/opt/airflow/dags                  # DAGs directory
-      - ./dags/Fire_Incidents_Traffic_ETL:/opt/airflow/dags/Fire_Incidents_Traffic_ETL
+      - ./dags:/opt/airflow/dags
+      #- ./dags/Fire_Incidents_Traffic_ETL:/opt/airflow/dags/Fire_Incidents_Traffic_ETL
+      #- ./dags/Postgres_To_S3_ETL:/opt/airflow/dags/Postgres_To_S3_ETL
       - ./logs:/opt/airflow/logs                  # Logs directory
+      - ~/.aws:/root/.aws
       - ./plugins:/opt/airflow/plugins            # Plugins directory
       - ./requirements.txt:/requirements.txt      # Requirements directory
       - ./entrypoint.sh:/entrypoint.sh            # Entrypoint.sh diretory
