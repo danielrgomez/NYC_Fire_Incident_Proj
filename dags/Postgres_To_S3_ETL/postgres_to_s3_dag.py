@@ -8,21 +8,6 @@ from Postgres_To_S3_ETL.load import load_data_to_s3
 
 
 
-#Variables used for ETL Process 
-#api_url='data.cityofnewyork.us'
-#token='xoIfIdDlHq6gGzxqLqbUeMpsG'
-#dataset_id='8m42-w767'
-#limit_rows=10000
-#username='root'
-#password='root'
-#host_name='fire_incidents_db_container'
-#port=5432
-#database='fire_incidents_db'
-#tbl_name='fire_incidents_tbl'
-#data_source = "fire_incident_data"
-#schema_name = 'fire_incidents_schema'
-
-
 # Define the default_args dictionary
 default_args = {
     'owner': 'airflow',

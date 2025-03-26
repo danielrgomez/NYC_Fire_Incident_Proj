@@ -9,7 +9,7 @@ from tenacity import retry, wait_exponential, stop_after_attempt
 def upload_file_to_s3(data_name,s3_client):
     for name in data_name:
         s3_client.upload_file('./temp_csv_files/exported_' + f'{name}' + '.csv', 'nyc-fire-incidents-s3', 'exported_' + f'{name}' + '.csv')
-        print("File uploaded successfully!")
+        print('exported_' + f'{name}' + '.csv' + ' File uploaded successfully!')
 
 def load_data_to_s3():
     ##This may be the preferred approach as opposed to the above
@@ -20,6 +20,7 @@ def load_data_to_s3():
         RoleArn="arn:aws:iam::564001313146:role/S3AccessRoleForNYCFireIncidentsProj",
         RoleSessionName="MyS3Session"
     )
+    print("Assumed Role")
 
     # Extract temporary credentials
     credentials = assumed_role['Credentials']
@@ -32,7 +33,7 @@ def load_data_to_s3():
     data_name = ['nyc_fire_incidents_data','nyc_traffic_data']
     try:
         upload_file_to_s3(data_name,s3_client)
-        print("Uploaded Files to S3!")
+        print("Successfully Uploaded Files to S3!")
 
     except requests.exceptions.RequestException as e:
         print(f"Failed to upload to S3")

@@ -63,6 +63,7 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     DOCKER_HOST: unix:///var/run/docker.sock  # <-- Add this line   
+    AWS_SHARED_CREDENTIALS_FILE: /opt/airflow/.aws/credentials
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -81,7 +82,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins     # Plugins directory 
     - ./requirements.txt:/requirements.txt                    # Requirements directory     
     - ./entrypoint.sh:/entrypoint.sh                          # Entrypoint.sh diretory
-    - ~/.aws:/root/.aws
+    - ~/.aws:/opt/airflow/.aws:ro
   user: "${AIRFLOW_UID:-50000}:1001"                          # Airflow UID = 50000 Docker Group 1001
   depends_on:
     &airflow-common-depends-on
@@ -188,14 +189,12 @@ services:
       AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
       _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}      
       DOCKER_HOST: unix:///var/run/docker.sock  # <-- Used to configure the Docker client to communicate with the Docker daemon.
+      AWS_SHARED_CREDENTIALS_FILE: /opt/airflow/.aws/credentials
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      #- ./dags:/opt/airflow/dags                  # DAGs directory
       - ./dags:/opt/airflow/dags
-      #- ./dags/Fire_Incidents_Traffic_ETL:/opt/airflow/dags/Fire_Incidents_Traffic_ETL
-      #- ./dags/Postgres_To_S3_ETL:/opt/airflow/dags/Postgres_To_S3_ETL
       - ./logs:/opt/airflow/logs                  # Logs directory
-      - ~/.aws:/root/.aws
+      - ~/.aws:/opt/airflow/.aws:ro
       - ./plugins:/opt/airflow/plugins            # Plugins directory
       - ./requirements.txt:/requirements.txt      # Requirements directory
       - ./entrypoint.sh:/entrypoint.sh            # Entrypoint.sh diretory
