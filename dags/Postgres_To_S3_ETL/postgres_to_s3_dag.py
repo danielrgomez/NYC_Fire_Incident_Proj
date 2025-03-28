@@ -49,3 +49,4 @@ with DAG(
 
 ## Set up the task dependencies
 extract_files_from_postgres_task >> load_fire_incidents_task
+
