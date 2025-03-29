@@ -27,7 +27,7 @@ schema_name = 'fire_incidents_schema'
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2025, 3, 7),
+    'start_date': datetime(2025, 3, 29),
     'email': ['airflow@airflow.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -40,7 +40,8 @@ with DAG(
     'etl_nyc_fire_incidents_dag',
     default_args=default_args, #Passes throught the default_args
     description='Extracts Transforms and Loads NYC Fire Incident Data',
-    schedule_interval='* */3 * * *',  # Every 3 hours
+    #schedule_interval='* */3 * * *',  # Every 3 hours
+    schedule_interval='*/5 * * * *',  # Every 5 minutes
     catchup=False,
     max_active_runs=1,
 ) as dag:
