@@ -12,7 +12,7 @@ from Fire_Incidents_Traffic_ETL.load import load_data_to_postgres
 api_url='data.cityofnewyork.us'
 token='xoIfIdDlHq6gGzxqLqbUeMpsG'
 dataset_id='7ym2-wayt'
-limit_rows=20000
+limit_rows=10000
 username='root'
 password='root'
 host_name='fire_incidents_db_container'
