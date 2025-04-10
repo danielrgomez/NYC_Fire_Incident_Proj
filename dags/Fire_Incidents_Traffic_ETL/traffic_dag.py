@@ -12,7 +12,7 @@ from Fire_Incidents_Traffic_ETL.load import load_data_to_postgres
 api_url='data.cityofnewyork.us'
 token='xoIfIdDlHq6gGzxqLqbUeMpsG'
 dataset_id='7ym2-wayt'
-limit_rows=20000
+limit_rows=200000
 username='root'
 password='root'
 host_name='fire_incidents_db_container'
@@ -21,6 +21,8 @@ database='fire_incidents_db'
 tbl_name='nyc_traffic_tbl'
 data_source ='traffic_data'
 schema_name = 'traffic_schema'
+year_from = 2010
+year_to = 2024
 
 # Define the default_args dictionary
 default_args = {
@@ -51,7 +53,7 @@ with DAG(
 
     #Extract Function
     def extract_data(**kwargs):
-        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source) #Calls the extract_traffic_data from the extract.py file
+        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,year_from,year_to) #Calls the extract_traffic_data from the extract.py file
         task_instance = kwargs['ti']
         task_instance.xcom_push(key='extract_data_xcom', value= json_extracted_data) #Pushes the json_extracted_data output to an xcom variable so it can be pulled in the transform task
 
