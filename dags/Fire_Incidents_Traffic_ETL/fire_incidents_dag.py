@@ -21,7 +21,7 @@ database='fire_incidents_db'
 tbl_name='fire_incidents_tbl'
 data_source = "fire_incident_data"
 schema_name = 'fire_incidents_schema'
-incident_date_time_from = '2010-01-01'
+incident_date_time_from = '2017-01-01'
 incident_date_time_to = '2024-01-01'
 
 # Define the default_args dictionary

@@ -21,7 +21,7 @@ database='fire_incidents_db'
 tbl_name='nyc_traffic_tbl'
 data_source ='traffic_data'
 schema_name = 'traffic_schema'
-year_from = 2010
+year_from = 2017
 year_to = 2024
 
 # Define the default_args dictionary
