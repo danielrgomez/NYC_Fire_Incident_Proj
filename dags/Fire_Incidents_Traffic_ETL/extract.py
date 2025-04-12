@@ -36,7 +36,7 @@ def extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,param_f
         url = f"https://{api_url}/resource/{dataset_id}.json"
         if data_source == "fire_incident_data":
             params = {
-                #"$where": f"incident_datetime >= '{param_from}T00:00:00' AND incident_datetime <= '{param_to}T00:00:00'"
+                #"$where": f"incident_datetime >= '{param_from}T00:00:00' AND incident_datetime <= '{param_to}T00:00:00'" another try
                 "$where": f"incident_datetime between '{param_from}T00:00:00' AND '{param_to}T00:00:00'"
             }
         elif data_source == "traffic_data":
