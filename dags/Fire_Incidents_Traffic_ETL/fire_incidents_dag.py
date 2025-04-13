@@ -22,7 +22,7 @@ tbl_name='fire_incidents_tbl'
 data_source = "fire_incident_data"
 schema_name = 'fire_incidents_schema'
 incident_date_time_from = '2017-01-01'
-incident_date_time_to = '2017-01-31'
+incident_date_time_to = '2017-01-25'
 offset = 1000
 
 # Define the default_args dictionary
@@ -43,7 +43,7 @@ with DAG(
     default_args=default_args, #Passes throught the default_args
     description='Extracts Transforms and Loads NYC Fire Incident Data',
     #schedule_interval='* */3 * * *',  # Every 3 hours
-    schedule_interval='*/5 * * * *',  # Every 5 minutes
+    schedule_interval='*/20 * * * *',  # Every 5 minutes
     catchup=False,
     max_active_runs=1,
 ) as dag:
@@ -84,12 +84,11 @@ with DAG(
 
 
 
-    #Load Function
+    ##Load Function
     def load_data(**kwargs):
         task_instance = kwargs['ti']
         load_data = task_instance.xcom_pull(task_ids='transform_data_task',key='transformed_data_xcom') #Pulls the transformed_data_xcom xcom variable which contains the json serialized data from the previous task
         load_data_to_postgres(load_data,username,password,host_name,port,database,tbl_name,data_source,schema_name)
-
 
     #Load Task
     load_fire_incidents_task = PythonOperator(
@@ -101,3 +100,4 @@ with DAG(
 
 ## Set up the task dependencies
 extract_fire_incidents_task >> transform_fire_incidents_task >> load_fire_incidents_task
+#extract_fire_incidents_task >> transform_fire_incidents_task 

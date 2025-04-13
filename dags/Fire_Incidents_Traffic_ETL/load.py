@@ -1,6 +1,9 @@
 import pandas as pd
 from sqlalchemy import create_engine
 from Fire_Incidents_Traffic_ETL.other_functions import convert_to_date_time_using_pands
+from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
+from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
+
 
 def load_data_to_postgres(load_json__data,username,password,host_name,port,database,tbl_name,data_source,schema_name):
 
@@ -8,9 +11,11 @@ def load_data_to_postgres(load_json__data,username,password,host_name,port,datab
 
     print('Loading NYC Fire Incidents Data to Postgres DB....')
     
+    json_transformed_data = read_temp_file(data_source,"all_json_data",'transform')
 
     #The load_json__data is converted to a Pandas Dataframe
-    df = pd.read_json(load_json__data)
+    #df = pd.read_json(load_json__data)
+    df = pd.read_json(json_transformed_data)
 
     #Coverts date fields preload
     if data_source == "fire_incident_data":
@@ -55,5 +60,11 @@ def load_data_to_postgres(load_json__data,username,password,host_name,port,datab
         batch.to_sql(name=tbl_name, con=engine, if_exists='append')
         print(f'Batch Number {counter} Loaded to Postgres.....')
         counter += 1
+
+    
+    print("Deleted transformed json data")
+    remove_temp_file(data_source,"all_json_data",'transform')
+    
+
 
     print('Load is Complete')

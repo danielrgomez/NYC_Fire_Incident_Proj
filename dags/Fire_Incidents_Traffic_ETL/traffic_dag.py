@@ -7,6 +7,8 @@ from Fire_Incidents_Traffic_ETL.extract import extract_data_via_api
 from Fire_Incidents_Traffic_ETL.transform_traffic_data_pyspark import main_traffic_nyc_pyspark_transformations
 from Fire_Incidents_Traffic_ETL.load import load_data_to_postgres
 
+#https://data.cityofnewyork.us/resource/7ym2-wayt.json?$where=yr%20%3E=%202017%20AND%20yr%20%3C%202017&$limit=1000&$offset=1000
+
 
 #Variables used for ETL Process 
 api_url='data.cityofnewyork.us'
@@ -22,7 +24,8 @@ tbl_name='nyc_traffic_tbl'
 data_source ='traffic_data'
 schema_name = 'traffic_schema'
 year_from = 2017
-year_to = 2024
+year_to = 2017
+offset = 1000
 
 # Define the default_args dictionary
 default_args = {
@@ -53,7 +56,7 @@ with DAG(
 
     #Extract Function
     def extract_data(**kwargs):
-        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,year_from,year_to) #Calls the extract_traffic_data from the extract.py file
+        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,year_from,year_to,offset) #Calls the extract_traffic_data from the extract.py file
         task_instance = kwargs['ti']
         task_instance.xcom_push(key='extract_data_xcom', value= json_extracted_data) #Pushes the json_extracted_data output to an xcom variable so it can be pulled in the transform task
 

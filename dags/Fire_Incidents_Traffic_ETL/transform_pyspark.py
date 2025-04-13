@@ -6,8 +6,9 @@ from pyspark.sql.functions import max
 from pyspark.sql.functions import min
 from pyspark.sql.functions import avg
 from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
+from Fire_Incidents_Traffic_ETL.other_functions import write_temp_file
 from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
-
+import os
 
 #Function to clean null values, The function takes in the following paramters: pyspark dataframe, dictionary of fields to clean and values to use when null, field to aggregate by, and the aggregate values
 def clean_null_values(df,null_fields_and_values,aggregate_field,aggregate_values):
@@ -115,7 +116,7 @@ def create_json_string_from_df(df):
 
 
 #--------------Main Transformations using Pyspark--------------
-def main_pyspark_transformations(json_results,data_source):
+def main_pyspark_transformations(offset_counter,data_source):
     
     print("Starting PySpark Transformations...")
 
@@ -128,30 +129,45 @@ def main_pyspark_transformations(json_results,data_source):
 
 
     # Validate JSON format
-    validate_json_format(json_results)
-   
+    #validate_json_format(json_results)
+    offset = 1000
+    #while offset < offset_counter:
+        
 
     #Reads json temp file
-    read_json_data = read_temp_file(data_source)
+    #read_json_data = read_temp_file(data_source,offset,'extract')
+    current_dir = os.getcwd()
+    temp_folder = os.path.join(current_dir, f'temp/extract/')
+    read_json_data = []
+    while offset < offset_counter + 1000:
+        json_offset_data = read_temp_file(data_source,offset,'extract')
+        read_json_data.append(json_offset_data)
+        offset += 1000
+#
+    #spark = SparkSession.builder.appName("ReadJSON").getOrCreate()
+    #directory_path = ""
 
+    #print(read_json_data[0])
 
     #Removes json temp file
-    remove_temp_file(data_source)
+    #remove_temp_file(data_source)
 
 
     #Creates the spark data frame
-    df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
+    #df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
+    df = spark.read.json(spark.sparkContext.parallelize([read_json_data][0]))
     
-    print(f"Pyspark count number of ros {df.count()}")
+
+    print(f"Pyspark count number of rows {df.count()}")
 
     #The values presented below correspond to the first entry identified for each field within their respective boroughs. For instance, in the case of the Bronx, the first zip code encountered in the dataset was 10451.  
     #For the null values, it is assumed that the newly assigned values will approximate the actual values as closely as possible.
     null_fields_and_values = {"zipcode":[10451,11201,10001,11004,10301],
-                          "policeprecinct":[40,60,1,100,120],
-                          "citycouncildistrict":[8,33,1,19,49],
-                          "communitydistrict":[201,301,101,401,501],
-                          "communityschooldistrict":[7,13,1,7,31],
-                          "congressionaldistrict":[13,7,7,3,11]}
+                        "policeprecinct":[40,60,1,100,120],
+                        "citycouncildistrict":[8,33,1,19,49],
+                        "communitydistrict":[201,301,101,401,501],
+                        "communityschooldistrict":[7,13,1,7,31],
+                        "congressionaldistrict":[13,7,7,3,11]}
 
     aggregate_field = "alarm_box_borough"
     aggregate_values = ["BRONX","BROOKLYN","MANHATTAN","QUEENS","RICHMOND / STATEN ISLAND"]
@@ -161,11 +177,11 @@ def main_pyspark_transformations(json_results,data_source):
 
     #Convert to floats
     numerical_fields_to_convert = ["dispatch_response_seconds_qy",
-                                   "incident_response_seconds_qy",
-                                   "incident_travel_tm_seconds_qy",
-                                   "engines_assigned_quantity",
-                                   "ladders_assigned_quantity",
-                                   "other_units_assigned_quantity"]
+                                "incident_response_seconds_qy",
+                                "incident_travel_tm_seconds_qy",
+                                "engines_assigned_quantity",
+                                "ladders_assigned_quantity",
+                                "other_units_assigned_quantity"]
     df = convert_to_float(df,numerical_fields_to_convert)
     print("Converted Fields to Floats")
 
@@ -195,10 +211,24 @@ def main_pyspark_transformations(json_results,data_source):
     print("Created total_resources_assigned_quantity column")
     
 
+
+
     #Creates a json string from the dataframe
     json_string = create_json_string_from_df(df)
     print("Created json string from PySpark dataframe")
+
     
+    #print(f"Writing json temp file to temp transform folder. Currently On : {offset}")
+    write_temp_file(json_string,data_source,"all_json_data",'transform')
+    
+    offset = 1000
+    while offset < offset_counter + 1000:
+        remove_temp_file(data_source,offset,'extract')
+        offset += 1000
+
+    #offset += 1000
+
     print("Transformations Complete!")
-    return json_string
+    #return json_string
+    return 'Transformations Completed'
     
