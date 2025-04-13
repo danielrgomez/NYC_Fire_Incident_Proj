@@ -24,6 +24,8 @@ def write_temp_file(results,data_source):
     # Write the JSON output to the file
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(results, file, indent=4)
+    #df.to_json(file_path,orient='records')
+    
     print("JSON Temp File Written")
 
 def read_temp_file(data_source):

@@ -46,7 +46,7 @@ def load_data_to_postgres(load_json__data,username,password,host_name,port,datab
             start += batchsize
 
     #Creates a list of batches. Parses the dataframe and the batchsize through the create_batches_of_rows function and sets the variable batches to the list
-    batches = list(create_batches_of_rows(df,100))
+    batches = list(create_batches_of_rows(df,1000))
 
 
     #Loops through each one of the batches and appends the batch to the postgressql database.

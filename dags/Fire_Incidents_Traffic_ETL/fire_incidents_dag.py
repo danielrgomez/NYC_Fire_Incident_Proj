@@ -22,7 +22,8 @@ tbl_name='fire_incidents_tbl'
 data_source = "fire_incident_data"
 schema_name = 'fire_incidents_schema'
 incident_date_time_from = '2017-01-01'
-incident_date_time_to = '2024-01-01'
+incident_date_time_to = '2017-01-31'
+offset = 1000
 
 # Define the default_args dictionary
 default_args = {
@@ -53,7 +54,7 @@ with DAG(
 
     #Extract Function
     def extract_data(**kwargs):
-        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,incident_date_time_from,incident_date_time_to) #Calls the extract_fire_incidents_data from the pull_fire_incidents.py file
+        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,incident_date_time_from,incident_date_time_to,offset) #Calls the extract_fire_incidents_data from the pull_fire_incidents.py file
         task_instance = kwargs['ti']
         task_instance.xcom_push(key='extract_data_xcom', value= json_extracted_data) #Pushes the json_extracted_data output to an xcom variable so it can be pulled in the transform task
 

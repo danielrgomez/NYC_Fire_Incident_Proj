@@ -6,7 +6,7 @@ from Fire_Incidents_Traffic_ETL.other_functions import write_temp_file
 
 
 
-def extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,param_from,param_to):
+def extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,param_from,param_to,offset):
 
     print('Extracting Data via API....')
     #Sts client to client field using Socrata
@@ -31,49 +31,77 @@ def extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,param_f
     #NEWNEWNEWNEW
 
     @retry(wait=wait_exponential(multiplier=2, min=2, max=16), stop=stop_after_attempt(5))
-    def get_data_from_api(api_url,dataset_id,param_from,param_to):
+    def get_data_from_api(api_url,dataset_id,param_from,param_to,offset):
         # Define the API endpoint
-        url = f"https://{api_url}/resource/{dataset_id}.json"
+        #url = f"https://{api_url}/resource/{dataset_id}.json"
         if data_source == "fire_incident_data":
-            params = {
-                #"$where": f"incident_datetime >= '{param_from}T00:00:00' AND incident_datetime <= '{param_to}T00:00:00'" another try
-                "$where": f"incident_datetime between '{param_from}T00:00:00' AND '{param_to}T00:00:00'"
-            }
+            #params = {
+            #    "$where": f"incident_datetime >= '{param_from}T00:00:00' AND incident_datetime <= '{param_to}T00:00:00'&$limit=1000&$offset=0"
+            #    #"$where": f"incident_datetime between '{param_from}T00:00:00' AND '{param_to}T00:00:00'"
+            #}
+            url = f"https://{api_url}/resource/{dataset_id}.json?$where=incident_datetime >= '{param_from}T00:00:00' AND incident_datetime < '{param_to}T00:00:00'&$limit=1000&$offset={offset}"
         elif data_source == "traffic_data":
             params = {
                 "$where": f"yr >= '{param_from}' AND yr <= '{param_to}'"
             }
         # Make the GET request
-        response = requests.get(url, params=params)
-        
+        #response = requests.get(url, params=params)
+        response = requests.get(url)
+
         # Check if the request was successful
         if response.status_code == 200:
             data = response.json()
-            print(data)
+            #print(data)
         else:
             print(f"Error: {response.status_code}")
         
         return data
     try:
         #results = client.get("8m42-w767", limit=50)
-        results = get_data_from_api(api_url,dataset_id,param_from,param_to)
-        print("Connected to API")
+        results = get_data_from_api(api_url,dataset_id,param_from,param_to,offset)
+        print("Results: ")
+        print(results)
+        print(f"Type result : {type(results)}")
+        df = pd.DataFrame.from_records(results)
+        print("Dataframe: ")
+        print(df)
+        offset_counter = 1000
+        print(f"On Offset {offset_counter} Length of results {len(results)}")
+        #all_results =[]
+        #print("Connected to API")
+
+        while len(results) == 1000:
+            
+            offset_counter += 1000
+            results = get_data_from_api(api_url,dataset_id,param_from,param_to,offset_counter)
+            #all_results.extend(results)
+            df = pd.concat([df, pd.DataFrame.from_records(results)], ignore_index=True)
+            #print(f"On Offset {offset_counter}")
+        
+        #df = pd.DataFrame.from_records(all_results)
+        #print(f"Count of df records {len(df)}")
         
     except requests.exceptions.RequestException as e:
         print(f"Failed to fetch data from API: {e}")
 
 
+    json_data = df.to_json(orient='records')
+    #print("Json data:")
+    #print(json_data)
 
-
+    #df_as_list = df.values.tolist()
+    #print("DF as List: ")
+    #print(df_as_list)
 
     #NEWNEWNEWNEW
     
+    
     #Writing temp json file to temp folder
     print("Writing json temp file to temp folder")
-    write_temp_file(results,data_source)
+    write_temp_file(json_data,data_source)
 
     #Creates a pandas dataframe using the results from client
-    df = pd.DataFrame.from_records(results)
+    #df = pd.DataFrame.from_records(results)
   
     #Must serialize the dataframe into json format in order to save the data to the XCom Variable for the next airflow task
     json_extracted_data = df.to_json()

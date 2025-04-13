@@ -142,6 +142,7 @@ def main_pyspark_transformations(json_results,data_source):
     #Creates the spark data frame
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
     
+    print(f"Pyspark count number of ros {df.count()}")
 
     #The values presented below correspond to the first entry identified for each field within their respective boroughs. For instance, in the case of the Bronx, the first zip code encountered in the dataset was 10451.  
     #For the null values, it is assumed that the newly assigned values will approximate the actual values as closely as possible.
