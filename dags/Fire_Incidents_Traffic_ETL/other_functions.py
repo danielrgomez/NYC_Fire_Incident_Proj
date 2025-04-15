@@ -26,11 +26,11 @@ def write_temp_file(results,data_source,offset_counter,sub_folder_name):
         json.dump(results, file, indent=4)
     #df.to_json(file_path,orient='records')
     
-    print("JSON Temp File Written")
+    print(f"JSON Temp File Written {data_source}_temp_{offset_counter}.json")
 
 def read_temp_file(data_source,offset_counter,sub_folder_name):
     # Get the current directory and define the temp folder path
-    print("Reading JSON Temp File to json_data variable")
+    print(f"Reading JSON Temp File: {data_source}_temp_{offset_counter}.json to json_data variable")
     current_dir = os.getcwd()
     temp_folder = os.path.join(current_dir, f'temp/{sub_folder_name}')
     

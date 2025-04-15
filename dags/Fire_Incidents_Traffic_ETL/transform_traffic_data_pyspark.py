@@ -60,16 +60,9 @@ def main_traffic_nyc_pyspark_transformations(offset_counter,data_source):
     while offset < offset_counter + 1000:
         json_offset_data = read_temp_file(data_source,offset,'extract')
         read_json_data.append(json_offset_data)
-        print(f"Length of each : {len(json_offset_data)}")
         offset += 1000
     
-    flattened_list = [item[0] for item in read_json_data]
-    print(read_json_data)
-    print(flattened_list)
-    print(f"Length of json variable: {len(read_json_data[0])}")
-    print(f"Length of json variable: {len(read_json_data[1])}")
-    print(f"Length of json variable: {len(read_json_data[2])}")
-    print(f"Length of json variable: {len(read_json_data)}")
+
     #Reads json temp file
     #read_json_data = read_temp_file(data_source,offset_counter,sub_folder_name)
 
@@ -79,8 +72,7 @@ def main_traffic_nyc_pyspark_transformations(offset_counter,data_source):
 
 
     #Creates the spark data frame
-    #df = spark.read.json(spark.sparkContext.parallelize([read_json_data[0]]))
-    df = spark.read.json(spark.sparkContext.parallelize([flattened_list]))
+    df = spark.read.json(spark.sparkContext.parallelize([read_json_data][0]))
 
     print(f"Pyspark count number of rows {df.count()}")
 

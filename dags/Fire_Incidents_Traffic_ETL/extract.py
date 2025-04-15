@@ -82,7 +82,7 @@ def extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,param_f
             
             offset_counter += 1000
             results = get_data_from_api(api_url,dataset_id,param_from,param_to,offset_counter)
-            print(f"Length of results: {len(results)}")
+            #print(f"Length of results: {len(results)}")
             #all_results.extend(results)
             #df = pd.concat([df, pd.DataFrame.from_records(results)], ignore_index=True)
             df = pd.DataFrame.from_records(results)
