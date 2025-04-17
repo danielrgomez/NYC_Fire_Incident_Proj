@@ -128,7 +128,7 @@ def main_pyspark_transformations(offset_counter,data_source):
         .getOrCreate()
 
 
-    # Validate JSON format
+    
     #validate_json_format(json_results)
     offset = 1000
     #while offset < offset_counter:
