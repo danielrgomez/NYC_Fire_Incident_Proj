@@ -169,7 +169,7 @@ def main_pyspark_transformations(offset_counter,data_source):
                         "communityschooldistrict":[7,13,1,7,31],
                         "congressionaldistrict":[13,7,7,3,11]}
 
-    aggregate_field = "alarm_box_borough"
+    aggregate_field = "incident_borough"
     aggregate_values = ["BRONX","BROOKLYN","MANHATTAN","QUEENS","RICHMOND / STATEN ISLAND"]
     df = clean_null_values(df,null_fields_and_values,aggregate_field,aggregate_values)
     print("Null values are clean")
@@ -197,8 +197,8 @@ def main_pyspark_transformations(offset_counter,data_source):
     print("Categorized fields based on 5 aggregates")
 
 
-    #Calculate Averages for dispatch_response_seconds_qy, incident_travel_tm_seconds_qy, and incident_response_seconds_qy by alarm_box_borough
-    aggregate_field = "alarm_box_borough"
+    #Calculate Averages for dispatch_response_seconds_qy, incident_travel_tm_seconds_qy, and incident_response_seconds_qy by incident_borough
+    aggregate_field = "incident_borough"
     fields_to_calculate_averages = ["dispatch_response_seconds_qy","incident_travel_tm_seconds_qy","incident_response_seconds_qy"]
     df = calculate_averages(df,fields_to_calculate_averages,aggregate_field)
     print("Caculated Averages for response times by each borough")
