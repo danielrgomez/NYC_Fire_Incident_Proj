@@ -5,6 +5,7 @@ import json
 from pyspark.sql.functions import max
 from pyspark.sql.functions import min
 from pyspark.sql.functions import avg
+from pyspark.storagelevel import StorageLevel
 from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
 from Fire_Incidents_Traffic_ETL.other_functions import write_temp_file
 from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
@@ -122,9 +123,9 @@ def main_pyspark_transformations(offset_counter,data_source):
 
     spark = SparkSession.builder \
         .appName("FireIncidents") \
-        .config("spark.driver.memory", "4g") \
-        .config("spark.executor.memory", "4g") \
-        .config("spark.driver.maxResultSize", "4g") \
+        .config("spark.driver.memory", "8g") \
+        .config("spark.executor.memory", "8g") \
+        .config("spark.driver.maxResultSize", "8g") \
         .getOrCreate()
 
 
@@ -155,7 +156,19 @@ def main_pyspark_transformations(offset_counter,data_source):
 
     #Creates the spark data frame
     #df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
+    
+    #Before the immediate line of code below
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data][0]))
+    
+    #Partition dataframe into 8 partitions. Partitions are created to process each in parallel across the cluster. Each partition is handled by an executer in spark enabling distributed computation.
+    df = df.repartition(8)
+    
+
+    #Persists data by saving DataFrame in memory and disk to avoid recomputing multiple times in a workflow. Persisting helps retain intermediate resutls for reuse
+    df = df.persist(StorageLevel.MEMORY_AND_DISK)
+
+
+
     
 
     print(f"Pyspark count number of rows {df.count()}")
@@ -211,7 +224,8 @@ def main_pyspark_transformations(offset_counter,data_source):
     print("Created total_resources_assigned_quantity column")
     
 
-
+    #Coalesce
+    df = df.coalesce(1)
 
     #Creates a json string from the dataframe
     json_string = create_json_string_from_df(df)

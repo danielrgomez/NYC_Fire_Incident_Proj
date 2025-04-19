@@ -21,8 +21,8 @@ database='fire_incidents_db'
 tbl_name='fire_incidents_tbl'
 data_source = "fire_incident_data"
 schema_name = 'fire_incidents_schema'
-incident_date_time_from = '2017-01-01'
-incident_date_time_to = '2017-01-28'
+incident_date_time_from = '2017-02-01'
+incident_date_time_to = '2017-02-28'
 offset = 1000
 
 # Define the default_args dictionary
@@ -43,7 +43,7 @@ with DAG(
     default_args=default_args, #Passes throught the default_args
     description='Extracts Transforms and Loads NYC Fire Incident Data',
     #schedule_interval='* */3 * * *',  # Every 3 hours
-    schedule_interval='*/20 * * * *',  # Every 5 minutes
+    schedule_interval='*/5 * * * *',  # Every 5 minutes
     catchup=False,
     max_active_runs=1,
 ) as dag:

@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col, to_timestamp, to_timestamp, concat, lit, upper, length
+from pyspark.storagelevel import StorageLevel
 import json
 from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
 from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
@@ -74,6 +75,12 @@ def main_traffic_nyc_pyspark_transformations(offset_counter,data_source):
     #Creates the spark data frame
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data][0]))
 
+    #Partition dataframe into 8 partitions. Partitions are created to process each in parallel across the cluster. Each partition is handled by an executer in spark enabling distributed computation.
+    df = df.repartition(8)
+    
+    #Persists data by saving DataFrame in memory and disk to avoid recomputing multiple times in a workflow. Persisting helps retain intermediate resutls for reuse
+    df = df.persist(StorageLevel.MEMORY_AND_DISK)
+
     print(f"Pyspark count number of rows {df.count()}")
 
     #NEW Transformation Function NEW NEW
@@ -101,6 +108,9 @@ def main_traffic_nyc_pyspark_transformations(offset_counter,data_source):
     #Convert vol to integer
     df = df.withColumn('vol', df['vol'].cast("int"))
     print("Cast vol to integer")
+
+    #Coalesce to 1 partittion. Reduces the number of partitions when the dataset becomes smaller after all of the transformations above.
+    df = df.coalesce(1)
 
     json_string = create_json_string_from_df(df)
     print("Created json string from PySpark dataframe")
