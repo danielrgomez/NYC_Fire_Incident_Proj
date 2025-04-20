@@ -130,9 +130,8 @@ def main_pyspark_transformations(offset_counter,data_source):
 
 
     #Remove    
-    #validate_json_format(json_results)
     offset = 1000
-    #while offset < offset_counter:
+    
         
 
     #Reads json temp file
@@ -144,20 +143,9 @@ def main_pyspark_transformations(offset_counter,data_source):
         json_offset_data = read_temp_file(data_source,offset,'extract')
         read_json_data.append(json_offset_data)
         offset += 1000
-#
-    #spark = SparkSession.builder.appName("ReadJSON").getOrCreate()
-    #directory_path = ""
-
-    #print(read_json_data[0])
-
-    #Removes json temp file
-    #remove_temp_file(data_source)
 
 
     #Creates the spark data frame
-    #df = spark.read.json(spark.sparkContext.parallelize([read_json_data]))
-    
-    #Before the immediate line of code below
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data][0]))
     
     #Partition dataframe into 8 partitions. Partitions are created to process each in parallel across the cluster. Each partition is handled by an executer in spark enabling distributed computation.
@@ -232,7 +220,7 @@ def main_pyspark_transformations(offset_counter,data_source):
     print("Created json string from PySpark dataframe")
 
     
-    #print(f"Writing json temp file to temp transform folder. Currently On : {offset}")
+    #Writes temporary file with the transformed and compiled data
     write_temp_file(json_string,data_source,"all_json_data",'transform')
     
     offset = 1000
@@ -240,9 +228,9 @@ def main_pyspark_transformations(offset_counter,data_source):
         remove_temp_file(data_source,offset,'extract')
         offset += 1000
 
-    #offset += 1000
+    
 
     print("Transformations Complete!")
-    #return json_string
+    
     return 'Transformations Completed'
     

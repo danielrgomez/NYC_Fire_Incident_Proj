@@ -50,8 +50,8 @@ def main_traffic_nyc_pyspark_transformations(offset_counter,data_source):
         .config("spark.driver.maxResultSize", "4g") \
         .getOrCreate()
     
-        # Validate JSON format
-    #validate_json_format(json_results)
+    
+    
     offset = 1000
     print(f"offset counter: {offset_counter}")
 
@@ -63,15 +63,6 @@ def main_traffic_nyc_pyspark_transformations(offset_counter,data_source):
         read_json_data.append(json_offset_data)
         offset += 1000
     
-
-    #Reads json temp file
-    #read_json_data = read_temp_file(data_source,offset_counter,sub_folder_name)
-
-
-    #Removes json temp file
-    #remove_temp_file(data_source)
-
-
     #Creates the spark data frame
     df = spark.read.json(spark.sparkContext.parallelize([read_json_data][0]))
 
@@ -83,7 +74,7 @@ def main_traffic_nyc_pyspark_transformations(offset_counter,data_source):
 
     print(f"Pyspark count number of rows {df.count()}")
 
-    #NEW Transformation Function NEW NEW
+    #Transformation Function 
     date_time_fields = ['m','d','hh','mm']
     df = clean_up_date_time(date_time_fields,df)
     print("Date and Time Fields Cleaned")

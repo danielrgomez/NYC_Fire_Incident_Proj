@@ -7,7 +7,7 @@ from Fire_Incidents_Traffic_ETL.extract import extract_data_via_api
 from Fire_Incidents_Traffic_ETL.transform_traffic_data_pyspark import main_traffic_nyc_pyspark_transformations
 from Fire_Incidents_Traffic_ETL.load import load_data_to_postgres
 
-#https://data.cityofnewyork.us/resource/7ym2-wayt.json?$where=yr%20%3E=%202017%20AND%20yr%20%3C%202017&$limit=1000&$offset=1000
+
 
 
 #Variables used for ETL Process 

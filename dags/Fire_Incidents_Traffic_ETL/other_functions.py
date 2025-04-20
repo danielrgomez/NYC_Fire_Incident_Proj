@@ -24,7 +24,7 @@ def write_temp_file(results,data_source,offset_counter,sub_folder_name):
     # Write the JSON output to the file
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(results, file, indent=4)
-    #df.to_json(file_path,orient='records')
+    
     
     print(f"JSON Temp File Written {data_source}_temp_{offset_counter}.json")
 

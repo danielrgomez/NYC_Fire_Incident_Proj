@@ -14,7 +14,6 @@ def load_data_to_postgres(load_json__data,username,password,host_name,port,datab
     json_transformed_data = read_temp_file(data_source,"all_json_data",'transform')
 
     #The load_json__data is converted to a Pandas Dataframe
-    #df = pd.read_json(load_json__data)
     df = pd.read_json(json_transformed_data)
 
     #Coverts date fields preload
