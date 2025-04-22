@@ -6,6 +6,7 @@ from airflow.providers.docker.operators.docker import DockerOperator
 from Fire_Incidents_Traffic_ETL.extract import extract_data_via_api
 from Fire_Incidents_Traffic_ETL.transform_pyspark import main_pyspark_transformations
 from Fire_Incidents_Traffic_ETL.load import load_data_to_postgres
+from Fire_Incidents_Traffic_ETL.other_functions import get_date_range
 
 
 #Variables used for ETL Process 
@@ -21,8 +22,8 @@ database='fire_incidents_db'
 tbl_name='fire_incidents_tbl'
 data_source = "fire_incident_data"
 schema_name = 'fire_incidents_schema'
-incident_date_time_from = '2017-03-01'
-incident_date_time_to = '2017-03-31'
+#incident_date_time_from, incident_date_time_to = get_date_range(datetime.today()) #To pull today's date ranges.
+incident_date_time_from, incident_date_time_to = get_date_range(datetime(2024,5,1))
 offset = 1000
 
 # Define the default_args dictionary
@@ -44,6 +45,7 @@ with DAG(
     description='Extracts Transforms and Loads NYC Fire Incident Data',
     #schedule_interval='* */3 * * *',  # Every 3 hours
     schedule_interval='*/5 * * * *',  # Every 5 minutes
+    #schedule_interval="0 0 1 * *", #Every Month
     catchup=False,
     max_active_runs=1,
 ) as dag:
@@ -100,4 +102,4 @@ with DAG(
 
 ## Set up the task dependencies
 extract_fire_incidents_task >> transform_fire_incidents_task >> load_fire_incidents_task
-#extract_fire_incidents_task >> transform_fire_incidents_task 
+

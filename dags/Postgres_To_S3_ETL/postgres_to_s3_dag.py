@@ -25,7 +25,8 @@ with DAG(
     'postgres_to_s3_dag',
     default_args=default_args, #Passes through the default_args
     description='Extracts and Loads NYC Fire Incident Data and NYC Traffic Data to AWS S3 Bucket',
-    schedule_interval='* */3 * * *',  # Every 3 hours
+    #schedule_interval='* */3 * * *',  # Every 3 hours
+    schedule_interval="0 0 1 * *", #Every Month
     catchup=False,
     max_active_runs=1,
 ) as dag:

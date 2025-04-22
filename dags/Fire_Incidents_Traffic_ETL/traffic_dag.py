@@ -23,8 +23,8 @@ database='fire_incidents_db'
 tbl_name='nyc_traffic_tbl'
 data_source ='traffic_data'
 schema_name = 'traffic_schema'
-year_from = 2017
-year_to = 2017
+year_from = 2024
+year_to = 2024
 offset = 1000
 
 # Define the default_args dictionary
@@ -46,6 +46,7 @@ with DAG(
     description='Extracts Transforms and Loads NYC Traffic Data',
     #schedule_interval='* */3 * * *',  # Every 3 hours
     schedule_interval='*/5 * * * *',  # Every 5 minutes
+    #schedule_interval="0 0 1 * *", #Every Month
     catchup=False,
     max_active_runs=1,
 ) as dag:

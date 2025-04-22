@@ -1,6 +1,19 @@
 import os
 import json
 import pandas as pd
+from datetime import datetime, timedelta
+
+
+
+
+def get_date_range(execution_date):
+    # First day of the previous month
+    first_day = (execution_date.replace(day=1) - timedelta(days=1)).replace(day=1)
+    
+    # Last day of the previous month
+    last_day = execution_date.replace(day=1) - timedelta(days=1)
+
+    return first_day.strftime("%Y-%m-%d"), last_day.strftime("%Y-%m-%d")
 
 #Function to convert fields to date time
 def convert_to_date_time_using_pands(df,date_fields_to_convert):
