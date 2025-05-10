@@ -60,9 +60,6 @@ def extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,param_f
     except requests.exceptions.RequestException as e:
         print(f"Failed to fetch data from API: {e}")
   
-    #Must serialize the dataframe into json format in order to save the data to the XCom Variable for the next airflow task
-    json_extracted_data = df.to_json()
-    print('json_extracted_data serialized')
     
     #Returns the converted json variable
     print("Extraction Complete")
