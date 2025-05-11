@@ -1,5 +1,5 @@
-import psycopg2
-import csv
+#import psycopg2
+#import csv
 import boto3
 import requests
 from tenacity import retry, wait_exponential, stop_after_attempt
