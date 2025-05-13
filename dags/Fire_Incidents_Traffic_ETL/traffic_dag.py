@@ -45,8 +45,8 @@ with DAG(
     default_args=default_args, #Passes throught the default_args
     description='Extracts Transforms and Loads NYC Traffic Data',
     #schedule_interval='* */3 * * *',  # Every 3 hours
-    schedule_interval='*/5 * * * *',  # Every 5 minutes
-    #schedule_interval="0 0 1 * *", #Every Month
+    #schedule_interval='*/5 * * * *',  # Every 5 minutes
+    schedule_interval="0 0 1 * *", #Every Month
     catchup=False,
     max_active_runs=1,
 ) as dag:
@@ -57,9 +57,9 @@ with DAG(
 
     #Extract Function
     def extract_data(**kwargs):
-        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,year_from,year_to,offset) #Calls the extract_traffic_data from the extract.py file
+        offset_counter = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,year_from,year_to,offset) #Calls the extract_traffic_data from the extract.py file
         task_instance = kwargs['ti']
-        task_instance.xcom_push(key='extract_data_xcom', value= json_extracted_data) #Pushes the json_extracted_data output to an xcom variable so it can be pulled in the transform task
+        task_instance.xcom_push(key='extract_data_xcom', value= offset_counter) #Pushes offset counter to an xcom variable so it can be pulled in the transform task
 
     # Extract Task
     extract_fire_incidents_task = PythonOperator(
@@ -73,10 +73,10 @@ with DAG(
     #Transform Function
     def transform_data(**kwargs):
         task_instance = kwargs['ti']
-        extracted_data = task_instance.xcom_pull(task_ids='extract_data_task',key='extract_data_xcom') #Pulls the extract_data_xcom xcom variable which contains the json serialized data from the previous task
-        json_transformed_data = main_traffic_nyc_pyspark_transformations(extracted_data,data_source)
+        extracted_offset_counter = task_instance.xcom_pull(task_ids='extract_data_task',key='extract_data_xcom') #Pulls the offset counter xcom variable which from the previous task
+        main_traffic_nyc_pyspark_transformations(extracted_offset_counter,data_source)
         task_instance = kwargs['ti']
-        task_instance.xcom_push(key='transformed_data_xcom', value= json_transformed_data) #Pushes the json_transformed_data output to an xcom variable so it can be pulled in the load task
+        
         
     #Transform Task
     transform_fire_incidents_task = PythonOperator(
@@ -90,8 +90,7 @@ with DAG(
     #Load Function
     def load_data(**kwargs):
         task_instance = kwargs['ti']
-        load_data = task_instance.xcom_pull(task_ids='transform_data_task',key='transformed_data_xcom') #Pulls the transformed_data_xcom xcom variable which contains the json serialized data from the previous task
-        load_data_to_postgres(load_data,username,password,host_name,port,database,tbl_name,data_source,schema_name)
+        load_data_to_postgres(username,password,host_name,port,database,tbl_name,data_source,schema_name)
 
 
     #Load Task

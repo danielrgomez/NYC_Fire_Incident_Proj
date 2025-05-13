@@ -55,9 +55,9 @@ with DAG(
 
     #Extract Function
     def extract_data(**kwargs):
-        json_extracted_data = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,incident_date_time_from,incident_date_time_to,offset) #Calls the extract_fire_incidents_data from the pull_fire_incidents.py file
+        offset_counter = extract_data_via_api(api_url,token,dataset_id,limit_rows,data_source,incident_date_time_from,incident_date_time_to,offset) #Calls the extract_fire_incidents_data from the pull_fire_incidents.py file
         task_instance = kwargs['ti']
-        task_instance.xcom_push(key='extract_data_xcom', value= json_extracted_data) #Pushes the offset_counter to an xcom variable so it can be pulled in the transform task
+        task_instance.xcom_push(key='extract_data_xcom', value= offset_counter) #Pushes the offset_counter to an xcom variable so it can be pulled in the transform task
 
     # Extract Task
     extract_fire_incidents_task = PythonOperator(
@@ -71,10 +71,9 @@ with DAG(
     #Transform Function
     def transform_data(**kwargs):
         task_instance = kwargs['ti']
-        extracted_data = task_instance.xcom_pull(task_ids='extract_data_task',key='extract_data_xcom') #Pulls the extract_data_xcom xcom variable which contains the offset_counter variable from the previous task
-        json_transformed_data = main_pyspark_transformations(extracted_data,data_source)
-        task_instance = kwargs['ti']
-        task_instance.xcom_push(key='transformed_data_xcom', value= json_transformed_data) #Pushes a Transformations Completed message.
+        extracted_offset_counter = task_instance.xcom_pull(task_ids='extract_data_task',key='extract_data_xcom') #Pulls the extract_data_xcom xcom variable which contains the offset_counter variable from the previous task
+        main_pyspark_transformations(extracted_offset_counter,data_source)
+        
         
     #Transform Task
     transform_fire_incidents_task = PythonOperator(
@@ -88,8 +87,7 @@ with DAG(
     ##Load Function
     def load_data(**kwargs):
         task_instance = kwargs['ti']
-        load_data = task_instance.xcom_pull(task_ids='transform_data_task',key='transformed_data_xcom') #Pulls the transformed_data_xcom xcom variable which contains the 'Transformations Completed Message'
-        load_data_to_postgres(load_data,username,password,host_name,port,database,tbl_name,data_source,schema_name)
+        load_data_to_postgres(username,password,host_name,port,database,tbl_name,data_source,schema_name)
 
     #Load Task
     load_fire_incidents_task = PythonOperator(

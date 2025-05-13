@@ -5,7 +5,7 @@ from Fire_Incidents_Traffic_ETL.other_functions import read_temp_file
 from Fire_Incidents_Traffic_ETL.other_functions import remove_temp_file
 
 
-def load_data_to_postgres(load_json__data,username,password,host_name,port,database,tbl_name,data_source,schema_name):
+def load_data_to_postgres(username,password,host_name,port,database,tbl_name,data_source,schema_name):
 
 
 
