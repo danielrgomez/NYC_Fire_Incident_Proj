@@ -24,7 +24,7 @@ def export_data_to_csv(database,user_name,pwd,host_name,port_number,tbl_name,dat
     if not os.path.exists(temp_folder):
         os.makedirs(temp_folder)
 
-    # Define the path to the JSON file
+    # Define the path to the CSV file
     file_path = os.path.join(temp_folder, 'exported_' + f'{data_name}'+'.csv')
 
     
