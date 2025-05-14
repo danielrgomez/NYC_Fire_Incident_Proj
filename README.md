@@ -36,3 +36,5 @@ This project implements a scalable **batch-processing ETL pipeline** to process 
 This structured pipeline enhances **data-driven decision-making**, providing a **real-time, automated workflow** that bridges **transactional and analytical databases** for **urban insights**.
 
 **For additional configuration details, refer to the Configuration Document.**
+
+![alt text](image.png)
