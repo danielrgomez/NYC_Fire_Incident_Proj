@@ -34,3 +34,5 @@ This project implements a scalable **batch-processing ETL pipeline** to process 
 - **Local Communities & Residents** – Understand **city-wide emergency and traffic patterns** for safer mobility.
 
 This structured pipeline enhances **data-driven decision-making**, providing a **real-time, automated workflow** that bridges **transactional and analytical databases** for **urban insights**.
+
+**For additional configuration details, refer to the Configuration Document.**
