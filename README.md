@@ -3,6 +3,9 @@
 ## Overview
 This project implements a scalable **batch-processing ETL pipeline** to process **Fire Incident Dispatch Data** and **Automated Traffic Volume Counts** sourced from the NYC Open Data Platform. The pipeline efficiently **ingests, transforms, and stores data** across **Postgres** (transactional storage) and **Amazon Redshift** (analytical storage), enabling **data visualization in Power BI** for actionable insights.
 
+## Architecture Diagram
+![alt text](https://github.com/danielrgomez/NYC_Fire_Incident_Proj/blob/main/documentation/ArchitectureDiagram.png)
+
 ## ETL Process Overview
 
 ### 1. Data Extraction & Ingestion (Automated Airflow DAGs in Docker)
@@ -37,4 +40,4 @@ This structured pipeline enhances **data-driven decision-making**, providing a *
 
 **For additional configuration details, refer to the Configuration Document.**
 
-![alt text](https://github.com/danielrgomez/NYC_Fire_Incident_Proj/blob/main/documentation/ArchitectureDiagram.png)
+
