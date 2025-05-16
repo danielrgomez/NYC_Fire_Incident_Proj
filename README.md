@@ -42,7 +42,11 @@ This structured pipeline enhances **data-driven decision-making**, providing a *
 - The Power BI dashboard consists of three tabs, each pulling data from AWS Redshift for structured analysis.
 - The tabs provide insights into NYC Fire Incidents, NYC Traffic Data, and a merged dataset, combining both sources for comprehensive comparisons.
 
-![alt text](https://github.com/danielrgomez/NYC_Fire_Incident_Proj/blob/main/documentation/ArchitectureDiagram.png)
+![alt text](https://github.com/danielrgomez/NYC_Fire_Incident_Proj/blob/main/documentation/NYCFireIncidents.png)
+
+![alt text](https://github.com/danielrgomez/NYC_Fire_Incident_Proj/blob/main/documentation/NYCTraffic.png)
+
+![alt text](https://github.com/danielrgomez/NYC_Fire_Incident_Proj/blob/main/documentation/FireIncidentsTraffic.png)
 
 
 **For additional configuration details, refer to the Configuration Document.**
