@@ -49,6 +49,6 @@ This structured pipeline enhances **data-driven decision-making**, providing a *
 ![alt text](https://github.com/danielrgomez/NYC_Fire_Incident_Proj/blob/main/documentation/FireIncidentsTraffic.png)
 
 
-**For additional configuration details, refer to the Configuration Document in the documentation folder.**
+**For additional configuration details, refer to the Configuration Document found in the documentation folder.**
 
 
