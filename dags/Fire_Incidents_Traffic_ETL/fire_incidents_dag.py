@@ -11,7 +11,7 @@ from Fire_Incidents_Traffic_ETL.other_functions import get_date_range
 
 #Variables used for ETL Process 
 api_url='data.cityofnewyork.us'
-token='xoIfIdDlHq6gGzxqLqbUeMpsG'
+token='token_alphanumeric'
 dataset_id='8m42-w767'
 limit_rows=10000
 username='root'
